@@ -410,20 +410,32 @@
               '" fill="none" stroke="'+O+
               '" stroke-width="1.5" stroke-dasharray="4 3"/>';
     }
-    /* Bars — drawn over the glass, direction matches install */
-    var bars="";
+    /* Bars + end posts — drawn over the glass, direction matches install */
+    var bars="", posts="";
+    var POST="#82979a";  // same family as the bars, just a tad darker
+    var ext=8;           // how far the posts run past the outer bars
     if(isHoriz){
       /* horizontal install → bars run L→R (horizontal bars) */
+      var hx1=fx+10, hx2=fx+fw-10;
+      var firstBy=fy+fh*1/5, lastBy=fy+fh*4/5;
       for(var i=1;i<=4;i++){
         var by=fy+fh*i/5;
-        bars+='<line x1="'+(fx+10)+'" y1="'+by+'" x2="'+(fx+fw-10)+'" y2="'+by+'" stroke="'+BAR+'" stroke-width="3.5" stroke-linecap="round"/>';
+        bars+='<line x1="'+hx1+'" y1="'+by+'" x2="'+hx2+'" y2="'+by+'" stroke="'+BAR+'" stroke-width="3.5" stroke-linecap="round"/>';
       }
+      /* end posts: vertical, connecting the bars at each end (extended past outer bars) */
+      posts+='<line x1="'+hx1+'" y1="'+(firstBy-ext)+'" x2="'+hx1+'" y2="'+(lastBy+ext)+'" stroke="'+POST+'" stroke-width="5" stroke-linecap="round"/>';
+      posts+='<line x1="'+hx2+'" y1="'+(firstBy-ext)+'" x2="'+hx2+'" y2="'+(lastBy+ext)+'" stroke="'+POST+'" stroke-width="5" stroke-linecap="round"/>';
     } else {
       /* vertical install → bars run top→bottom (vertical bars) */
+      var vy1=fy+10, vy2=fy+fh-10;
+      var firstBx=fx+fw*1/5, lastBx=fx+fw*4/5;
       for(var j=1;j<=4;j++){
         var bx=fx+fw*j/5;
-        bars+='<line x1="'+bx+'" y1="'+(fy+10)+'" x2="'+bx+'" y2="'+(fy+fh-10)+'" stroke="'+BAR+'" stroke-width="3.5" stroke-linecap="round"/>';
+        bars+='<line x1="'+bx+'" y1="'+vy1+'" x2="'+bx+'" y2="'+vy2+'" stroke="'+BAR+'" stroke-width="3.5" stroke-linecap="round"/>';
       }
+      /* end posts: horizontal, connecting the bars at each end (extended past outer bars) */
+      posts+='<line x1="'+(firstBx-ext)+'" y1="'+vy1+'" x2="'+(lastBx+ext)+'" y2="'+vy1+'" stroke="'+POST+'" stroke-width="5" stroke-linecap="round"/>';
+      posts+='<line x1="'+(firstBx-ext)+'" y1="'+vy2+'" x2="'+(lastBx+ext)+'" y2="'+vy2+'" stroke="'+POST+'" stroke-width="5" stroke-linecap="round"/>';
     }
 
     /* Dimension arrows */
@@ -439,6 +451,7 @@
     return '<svg viewBox="0 0 288 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="window measurement guide">'
             +'<g class="window">'+frame+'</g>'
             +'<g class="bars">'+bars+'</g>'
+            +'<g class="posts">'+posts+'</g>'
             +'<g class="labels">'+labels+'</g>'
             +dims
             +'</svg>';
