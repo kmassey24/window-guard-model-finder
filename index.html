@@ -43,8 +43,7 @@
   <!-- STEP 2 — INSTALL DIRECTION -->
   <section class="gaf-step" id="gaf-step2" hidden>
     <p class="gaf-steplabel"><span class="gaf-num">2</span> How will the guard be installed?</p>
-    <p class="gaf-stephint">Guards can be mounted either way. We recommend <b>Horizontal Installs for Single/Double Hung Windows, and Vertical for Slider 
-                            and Casement Windows</b>. Select the direction you plan to install. We will then show you what to measure.</p>
+    <p class="gaf-stephint">Guards can be mounted either way. We recommend <b>Horizontal Installs for Single/Double Hung Windows, and Vertical for Slider and Casement Windows</b>. Select the direction you plan to install. We will then show you what to measure.</p>
     <div class="gaf-installs" id="gaf-installs" role="radiogroup" aria-label="Install direction">
       <button class="gaf-install" data-install="horizontal" role="radio" aria-checked="false">
         <span class="gaf-install-icon" id="icon-horiz"></span>
@@ -79,9 +78,9 @@
     <p class="gaf-range">Guards fit lengths 14&quot;&ndash;120&quot; and openings up to 91&quot;. Not sure how to measure? See the
       <a href="https://gaguards.com/pages/instructions" target="_blank" rel="noopener">measuring instructions</a>.</p>
     <p class="gaf-recheck-msg" id="gaf-recheck" hidden>
-      Reminder: If you changed between <strong>Horizontal</strong> and <strong>Vertical</strong>,
+      <strong>⚠️Reminder:</strong> If you changed between <strong>Horizontal</strong> and <strong>Vertical</strong>,
       please double-check your <strong>window length and opening measurements</strong> according to
-      the diagram in step 2. Measurement method may have changed.
+      the diagram in Step 2. The measurement method may have changed.
     </p>
       <button id="gaf-go" class="gaf-go">Find my guards</button>
   </section>
@@ -335,7 +334,7 @@
     var isHoriz = (orient==="horizontal");
 
     /* Window frame — shape changes by type */
-    var frame="", sash="";
+    var frame="", labels="";
     if(winType==="double-hung" || winType==="single-hung"){
       /* two panes stacked vertically */
       var midY = fy + fh/2;
@@ -344,7 +343,13 @@
       /* for single-hung shade top pane to show it's fixed */
       if(winType==="single-hung"){
         frame += '<rect x="'+(fx+2)+'" y="'+(fy+2)+'" width="'+(fw-4)+'" height="'+(fh/2-3)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
-        frame += '<text x="'+cx+'" y="'+(fy+fh/4+5)+'" fill="'+D+'" font-family="Rajdhani,sans-serif" font-size="10" font-weight="600" text-anchor="middle" opacity="0.55">fixed</text>';
+        const pillW = 50;
+        const pillH = 18;
+        const pillX = cx - pillW/2;
+        const pillY = fy + fh/4 - pillH/2 + 2;
+
+        labels += '<rect x="'+pillX+'" y="'+pillY+'" width="'+pillW+'" height="'+pillH+'" rx="9" fill="rgba(0,61,76,0.75)"/>';
+        labels += '<text x="'+cx+'" y="'+(pillY+12.5)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
       }
     } else if(winType==="single-slider" || winType==="double-slider"){
       /* two panes side by side */
@@ -353,7 +358,11 @@
       frame += '<line x1="'+midX+'" y1="'+fy+'" x2="'+midX+'" y2="'+(fy+fh)+'" stroke="'+FRAME+'" stroke-width="2"/>';
       if(winType==="single-slider"){
         frame += '<rect x="'+(midX+2)+'" y="'+(fy+2)+'" width="'+(fw/2-4)+'" height="'+(fh-4)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
-        frame += '<text x="'+(midX+fw/4)+'" y="'+(cy+5)+'" fill="'+D+'" font-family="Rajdhani,sans-serif" font-size="10" font-weight="600" text-anchor="middle" opacity="0.55">fixed</text>';
+        const pillCX = midX + fw/4;
+        const pillCY = cy;
+
+        labels += '<rect x="'+(pillCX-25)+'" y="'+(pillCY-9)+'" width="50" height="18" rx="9" fill="rgba(0,61,76,0.75)"/>';
+        labels += '<text x="'+pillCX+'" y="'+(pillCY+3.5)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
       }
     } else {
       /* casement — double casement window */
@@ -415,7 +424,11 @@
       + dash(leftX,fy,fx,fy)+dash(leftX,fy+fh,fx,fy+fh)+vArrow(fy,fy+fh,leftX,hColor)+txt(22,cy,hColor,hText,true);
 
     return '<svg viewBox="0 0 288 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="window measurement guide">'
-      +frame+bars+dims+'</svg>';
+            +'<g class="window">'+frame+'</g>'
+            +'<g class="bars">'+bars+'</g>'
+            +'<g class="labels">'+labels+'</g>'
+            +dims
+            +'</svg>';
   }
 
   /* ---- WINDOW TYPE ICON (thumbnail for the picker) ---- */
@@ -425,10 +438,25 @@
     var inner="";
     if(t==="double-hung"||t==="single-hung"){
       inner='<line x1="4" y1="26" x2="48" y2="26" stroke="'+D+'" stroke-width="1.5"/>';
-      if(t==="single-hung") inner+='<rect x="5" y="5" width="42" height="20" fill="rgba(0,61,76,0.3)"/>';
+      if(t==="single-hung"){ 
+        inner+='<rect x="5" y="5" width="42" height="20" fill="rgba(0,61,76,0.3)"/>';
+        inner+='<rect x="10" y="8.1" width="32" height="14" rx="7" fill="rgba(0,61,76,0.75)"/>';
+        inner+='<text x="26" y="18" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="9.5" font-weight="800" text-anchor="middle">FIXED</text>';
+      }
     } else if(t==="single-slider"||t==="double-slider"){
       inner='<line x1="26" y1="4" x2="26" y2="48" stroke="'+D+'" stroke-width="1.5"/>';
-      if(t==="single-slider") inner+='<rect x="27" y="5" width="20" height="42" fill="rgba(0,61,76,0.3)"/>';
+      if (t === "single-slider") {
+        inner += '<rect x="27" y="5" width="20" height="42" fill="rgba(0,61,76,0.3)"/>';
+
+        inner += `
+          <g transform="rotate(90 37 29)">
+            <rect x="18" y="22" width="32" height="14" rx="7" fill="rgba(0,61,76,0.75)"/>
+            <text x="34" y="32" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="9.5" font-weight="800" text-anchor="middle">
+              FIXED
+            </text>
+          </g>
+        `;
+      }
     } else {
       /* double casement */
 
