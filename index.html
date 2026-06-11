@@ -87,6 +87,11 @@
 
   <!-- RESULTS -->
   <section class="gaf-results" id="gaf-results" hidden aria-live="polite"></section>
+
+  <!-- START OVER -->
+  <div class="gaf-reset-wrap">
+    <button id="gaf-reset" class="gaf-reset" hidden>↺ Start over</button>
+  </div>
 </div>
 
 <style>
@@ -229,6 +234,14 @@
     line-height:1.55;
   }
   .gaf-recheck-msg strong{color:#8a2b2b;}
+  
+  /* START OVER */
+  .gaf-reset-wrap{text-align:center; padding-top:18px;}
+  .gaf-reset{font-family:inherit; font-size:15px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--deep); background:none; border:1.5px solid var(--line);
+    border-radius:10px; padding:11px 22px; cursor:pointer; transition:all .15s ease;}
+  .gaf-reset:hover{border-color:var(--teal); color:var(--teal); background:var(--soft);}
+  .gaf-reset:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
 </style>
 
 <script>
@@ -522,6 +535,8 @@
     /* Reveal step 2 */
     $("gaf-step2").hidden = false;
 
+    $("gaf-reset").hidden = false;   // ← add this line
+
     /* If direction already chosen, refresh diagram */
     if(install){ updateGuide(); }
   });
@@ -578,6 +593,34 @@
     $("gaf-open").classList.remove("gaf-recheck");
     $("gaf-recheck").hidden = true;
   }
+
+  function resetAll(){
+    /* clear state */
+    winType = null;
+    install = null;
+
+    /* deselect all pills */
+    document.querySelectorAll(".gaf-type").forEach(function(b){ b.setAttribute("aria-checked","false"); });
+    document.querySelectorAll(".gaf-install").forEach(function(b){ b.setAttribute("aria-checked","false"); });
+
+    /* clear inputs + highlight */
+    $("gaf-len").value = "";
+    $("gaf-open").value = "";
+    clearRecheck();
+
+    /* hide steps 2 & 3, the guide panel, results, and this button */
+    $("gaf-step2").hidden = true;
+    $("gaf-step3").hidden = true;
+    $("gaf-typepanel").hidden = true;
+    $("gaf-results").hidden = true;
+    $("gaf-results").innerHTML = "";
+    $("gaf-reset").hidden = true;
+
+    /* scroll back to the top of the finder */
+    document.getElementById("ga-finder").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  $("gaf-reset").addEventListener("click", resetAll);
 
   /* Typing in EITHER box clears the highlight + reminder */
   $("gaf-len").addEventListener("input", clearRecheck);
@@ -636,7 +679,7 @@
     var pairs   = sizes.map(function(sz){ return data[sz].id+":"+counts[sz]; }).join(",");
     var cartUrl = SHOP+"/cart/"+pairs+"?storefront=true";
 
-    var plural = total===1 ? "GUARD" : "GUARDS";
+    var plural = total===1 ? "guard" : "guards";
     var orientHtml = "";
     if(install){
       var o = ORIENT[install];
