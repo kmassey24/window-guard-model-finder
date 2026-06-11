@@ -117,6 +117,21 @@
   .gaf-num{display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:var(--deep); color:#fff; font-size:15px; font-weight:700; flex-shrink:0;}
   .gaf-stephint{font-size:15px; color:var(--ink); opacity:.8; padding-top:0px; padding-bottom:8px; padding-left:42px;}
 
+  /* STEP 2 MEASURING-GUIDE NOTE */
+  .gaf-typenote{font-size:15px;}                        /* slightly smaller body */
+  .gaf-note-eyebrow{font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); margin-bottom:6px;}
+  .gaf-note-head{font-size:23px; font-weight:700; color:var(--deep); margin-bottom:6px; line-height:1.1;}
+  .gaf-note-desc{font-size:15px; margin-bottom:18px;}
+  .gaf-note-sub{font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:.13em;
+    color:var(--teal); margin-bottom:8px; padding-top:4px;
+    border-top:1px solid var(--line); padding-top:14px;}
+  .gaf-note-run{font-size:15px; margin-bottom:10px;}
+  .gaf-note-steps{margin:0; padding-left:20px; font-size:15px;}
+  .gaf-note-steps li{margin-bottom:4px; line-height:1.5;}
+  .gaf-note-steps li:last-child{margin-bottom:0;}
+  .gaf-len-em{font-weight:700; color:var(--deep);}    /* deep teal = Length */
+  .gaf-open-em{font-weight:700; color:var(--teal);}   /* bright teal = Opening */
+
   /* WINDOW TYPE PILLS */
   .gaf-types{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
   .gaf-type{font-family:inherit; text-align:center; cursor:pointer; padding:16px 10px 14px; border:1.5px solid var(--line);
@@ -141,11 +156,11 @@
   .gaf-install-d{font-size:14px; color:var(--ink); opacity:.82; line-height:1.4; display:block;}
 
   /* MEASURE GUIDE PANEL */
-  .gaf-typepanel{display:flex; gap:28px; align-items:center; margin-top:22px; padding:22px 24px;
+  .gaf-typepanel{display:flex; gap:0px; align-items:center; margin-top:22px; padding:22px 24px;
     background:var(--soft); border:1px solid var(--line); border-radius:16px;}
-  .gaf-typeimg{flex:0 0 240px;}
-  .gaf-typeimg svg{width:240px; height:auto; display:block;}
-  .gaf-typeimg img{width:240px; height:auto; display:block; border-radius:8px;}
+  .gaf-typeimg{flex:0 0 360px;}
+  .gaf-typeimg svg{width:360px; height:auto; display:block;}
+  .gaf-typeimg img{width:360px; height:auto; display:block; border-radius:8px;}
   .gaf-typenote{font-size:16px; color:var(--ink); line-height:1.65;}
   .gaf-typenote strong{color:var(--deep);}
   .gaf-typenote p{margin:0 0 10px;}
@@ -579,13 +594,25 @@
     if(!winType || !install) return;
     var o = ORIENT[install];
     var typeInfo = TYPES[winType];
+    var runDir = install==="horizontal" ? "side-to-side" : "top-to-bottom";
+
     $("gaf-typeimg").innerHTML = o.img
       ? '<img src="'+o.img+'" alt="'+o.label+' install measurement guide">'
       : diagram(winType, install);
+
     $("gaf-typenote").innerHTML =
-      '<p><strong>'+typeInfo.label+'</strong> &mdash; '+typeInfo.desc+'</p>'
-      +'<p>'+o.note+'</p>'
-      +'<p>The deep teal arrow is your <strong>Length</strong> and the bright teal arrow is your <strong>Opening</strong>.</p>';
+        '<p class="gaf-note-eyebrow">Your Measuring Guide</p>'
+      + '<p class="gaf-note-head">'+typeInfo.label+'</p>'
+      + '<p class="gaf-note-desc">'+typeInfo.desc+'</p>'
+      + '<p class="gaf-note-sub">How to measure the window</p>'
+      + '<p class="gaf-note-run">The guard runs <strong>'+runDir+'</strong>.</p>'
+      + '<ol class="gaf-note-steps">'
+      +   '<li>Measure the window\u2019s <strong>'+o.lenDim+'</strong> as the '
+      +     '<span class="gaf-len-em">Length (the deep teal arrow is your Length)</span>.</li>'
+      +   '<li>Measure the window\u2019s <strong>'+o.openDim+'</strong> as the '
+      +     '<span class="gaf-open-em">Opening (the bright teal arrow is your Opening)</span>.</li>'
+      + '</ol>';
+
     $("gaf-typepanel").hidden = false;
   }
 
