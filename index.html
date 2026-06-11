@@ -636,7 +636,7 @@
     var pairs   = sizes.map(function(sz){ return data[sz].id+":"+counts[sz]; }).join(",");
     var cartUrl = SHOP+"/cart/"+pairs+"?storefront=true";
 
-    var plural = total===1 ? "guard" : "guards";
+    var plural = total===1 ? "GUARD" : "GUARDS";
     var orientHtml = "";
     if(install){
       var o = ORIENT[install];
