@@ -342,7 +342,7 @@
       frame += '<line x1="'+fx+'" y1="'+midY+'" x2="'+(fx+fw)+'" y2="'+midY+'" stroke="'+FRAME+'" stroke-width="2"/>';
       /* for single-hung shade top pane to show it's fixed */
       if(winType==="single-hung"){
-        frame += '<rect x="'+(fx+2)+'" y="'+(fy+2)+'" width="'+(fw-4)+'" height="'+(fh/2-3)+'" rx="2" fill="rgba(0,61,76,0.07)"/>';
+        frame += '<rect x="'+(fx+2)+'" y="'+(fy+2)+'" width="'+(fw-4)+'" height="'+(fh/2-3)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
         frame += '<text x="'+cx+'" y="'+(fy+fh/4+5)+'" fill="'+D+'" font-family="Rajdhani,sans-serif" font-size="10" font-weight="600" text-anchor="middle" opacity="0.55">fixed</text>';
       }
     } else if(winType==="single-slider" || winType==="double-slider"){
@@ -351,7 +351,7 @@
       frame  = '<rect x="'+fx+'" y="'+fy+'" width="'+fw+'" height="'+fh+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
       frame += '<line x1="'+midX+'" y1="'+fy+'" x2="'+midX+'" y2="'+(fy+fh)+'" stroke="'+FRAME+'" stroke-width="2"/>';
       if(winType==="single-slider"){
-        frame += '<rect x="'+(midX+2)+'" y="'+(fy+2)+'" width="'+(fw/2-4)+'" height="'+(fh-4)+'" rx="2" fill="rgba(0,61,76,0.07)"/>';
+        frame += '<rect x="'+(midX+2)+'" y="'+(fy+2)+'" width="'+(fw/2-4)+'" height="'+(fh-4)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
         frame += '<text x="'+(midX+fw/4)+'" y="'+(cy+5)+'" fill="'+D+'" font-family="Rajdhani,sans-serif" font-size="10" font-weight="600" text-anchor="middle" opacity="0.55">fixed</text>';
       }
     } else {
@@ -424,10 +424,10 @@
     var inner="";
     if(t==="double-hung"||t==="single-hung"){
       inner='<line x1="4" y1="26" x2="48" y2="26" stroke="'+D+'" stroke-width="1.5"/>';
-      if(t==="single-hung") inner+='<rect x="5" y="5" width="42" height="20" fill="rgba(0,61,76,0.12)"/>';
+      if(t==="single-hung") inner+='<rect x="5" y="5" width="42" height="20" fill="rgba(0,61,76,0.3)"/>';
     } else if(t==="single-slider"||t==="double-slider"){
       inner='<line x1="26" y1="4" x2="26" y2="48" stroke="'+D+'" stroke-width="1.5"/>';
-      if(t==="single-slider") inner+='<rect x="27" y="5" width="20" height="42" fill="rgba(0,61,76,0.12)"/>';
+      if(t==="single-slider") inner+='<rect x="27" y="5" width="20" height="42" fill="rgba(0,61,76,0.3)"/>';
     } else {
       /* double casement */
 
