@@ -1,6 +1,7 @@
 <!-- ===========================================-->
 <!--  GUARDIAN ANGEL WINDOW GUARDS MODEL FINDER -->
 <!-- ===========================================-->
+<!--  Version 2 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -76,7 +77,12 @@
     </div>
     <p class="gaf-range">Guards fit lengths 14&quot;&ndash;120&quot; and openings up to 91&quot;. Not sure how to measure? See the
       <a href="https://gaguards.com/pages/instructions" target="_blank" rel="noopener">measuring instructions</a>.</p>
-    <button id="gaf-go" class="gaf-go">Find my guards</button>
+    <p class="gaf-recheck-msg" id="gaf-recheck" hidden>
+      Reminder: If you changed between <strong>Horizontal</strong> and <strong>Vertical</strong>,
+      please double-check your <strong>window length and opening measurements</strong> according to
+      the diagram in step 2. Measurement method may have changed.
+    </p>
+      <button id="gaf-go" class="gaf-go">Find my guards</button>
   </section>
 
   <!-- RESULTS -->
@@ -206,6 +212,23 @@
     .gaf-types{grid-template-columns:1fr 1fr;}
   }
   @media (prefers-reduced-motion:reduce){ #ga-finder *{transition:none !important;} }
+
+  /* Re-check highlight + reminder */
+  .gaf-field input.gaf-recheck{
+    background:#fbeaea;
+    border-color:var(--red);
+  }
+  .gaf-recheck-msg{
+    margin-top:12px;
+    padding:13px 16px;
+    background:#fbeaea;
+    border:1px solid var(--red);
+    border-radius:10px;
+    font-size:14px;
+    color:#8a2b2b;
+    line-height:1.55;
+  }
+  .gaf-recheck-msg strong{color:#8a2b2b;}
 </style>
 
 <script>
@@ -477,8 +500,12 @@
   /* ---- STEP 2: Install direction selection ---- */
   $("gaf-installs").addEventListener("click", function(e){
     var btn = e.target.closest(".gaf-install"); if(!btn) return;
+    var prevInstall = install;          // remember previous choice
     install = btn.dataset.install;
     document.querySelectorAll(".gaf-install").forEach(function(b){ b.setAttribute("aria-checked", String(b===btn)); });
+
+    /* Only nag if they actually SWITCHED from a prior selection */
+    if(prevInstall && prevInstall !== install){ showRecheck(); }
 
     updateGuide();
 
@@ -511,6 +538,21 @@
   $("gaf-open").addEventListener("keydown", function(e){ if(e.key==="Enter") run(); });
 
   function msg(html, kind){ $("gaf-results").hidden=false; $("gaf-results").innerHTML='<div class="gaf-msg '+kind+'">'+html+'</div>'; }
+
+  function showRecheck(){
+    $("gaf-len").classList.add("gaf-recheck");
+    $("gaf-open").classList.add("gaf-recheck");
+    $("gaf-recheck").hidden = false;
+  }
+  function clearRecheck(){
+    $("gaf-len").classList.remove("gaf-recheck");
+    $("gaf-open").classList.remove("gaf-recheck");
+    $("gaf-recheck").hidden = true;
+  }
+
+  /* Typing in EITHER box clears the highlight + reminder */
+  $("gaf-len").addEventListener("input", clearRecheck);
+  $("gaf-open").addEventListener("input", clearRecheck);
 
   function run(){
     var len  = parseFloat($("gaf-len").value);
