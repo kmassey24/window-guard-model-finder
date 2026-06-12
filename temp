@@ -748,7 +748,7 @@
 
     var isSH=(winType==="single-hung"), isSS=(winType==="single-slider");
     var carve = (isSH && isHoriz) || (isSS && !isHoriz);   // guards skip the fixed pane ONLY here
-    var FIXFRAC=0.6;
+    var FIXFRAC=1.0;
 
     /* operable dims (inches) */
     var opWin = isHoriz ? lenVal : openVal;
