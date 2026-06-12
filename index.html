@@ -257,6 +257,14 @@
     border-radius:10px; padding:11px 22px; cursor:pointer; transition:all .15s ease;}
   .gaf-reset:hover{border-color:var(--teal); color:var(--teal); background:var(--soft);}
   .gaf-reset:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
+   
+  /* RESULT VISUALIZATION */
+  .gaf-resultviz{margin-top:20px; padding:20px 22px 18px; background:var(--soft);
+    border:1px solid var(--line); border-radius:14px;}
+  .gaf-resultviz-cap{font-size:14px; color:var(--ink); opacity:.9; margin:0 0 12px;
+    line-height:1.5; text-align:center;}
+  .gaf-resultviz-cap strong{color:var(--deep); opacity:1;}
+  .gaf-resultviz svg{display:block; height:auto; margin:0 auto;}
 </style>
 
 <script>
@@ -694,9 +702,185 @@
 
   function trim(n){ return (Math.round(n*1000)/1000).toString(); }
 
+  /* ---- WINDOW SHAPE (same art as Step 2), scaled to any rect ----
+     Returns { frame } drawn UNDER the guards and { labels } (FIXED pills) drawn OVER them. */
+  function windowShape(winType, x, y, w, h){
+    var D="#003D4C", O="#009CA6", GLASS="#e8f4f5", FRAME="#003D4C";
+    var cx=x+w/2, cy=y+h/2;
+    var frame='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
+    var labels="";
+
+    if(winType==="double-hung"||winType==="single-hung"){
+      frame+='<line x1="'+x+'" y1="'+cy+'" x2="'+(x+w)+'" y2="'+cy+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      if(winType==="single-hung"){
+        frame+='<rect x="'+(x+2)+'" y="'+(y+2)+'" width="'+(w-4)+'" height="'+(h/2-3)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
+        var pw=Math.min(50,w-8), px=cx-pw/2, py=y+h/4-9;
+        labels+='<rect x="'+px+'" y="'+py+'" width="'+pw+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
+        labels+='<text x="'+cx+'" y="'+(py+12.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
+      }
+    } else if(winType==="single-slider"||winType==="double-slider"){
+      frame+='<line x1="'+cx+'" y1="'+y+'" x2="'+cx+'" y2="'+(y+h)+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      if(winType==="single-slider"){
+        frame+='<rect x="'+(cx+2)+'" y="'+(y+2)+'" width="'+(w/2-4)+'" height="'+(h-4)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
+        var pcx=cx+w/4, pw2=Math.min(50,w/2-8);
+        labels+='<rect x="'+(pcx-pw2/2)+'" y="'+(cy-9)+'" width="'+pw2+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
+        labels+='<text x="'+pcx+'" y="'+(cy+3.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
+      }
+    } else {
+      /* casement */
+      frame+='<line x1="'+cx+'" y1="'+y+'" x2="'+cx+'" y2="'+(y+h)+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      var ix=Math.max(4,w*0.04), iy=Math.max(4,h*0.055);
+      frame+='<rect x="'+(x+ix)+'" y="'+(y+iy)+'" width="'+(w/2-2*ix)+'" height="'+(h-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
+      frame+='<rect x="'+(cx+ix)+'" y="'+(y+iy)+'" width="'+(w/2-2*ix)+'" height="'+(h-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
+      frame+='<circle cx="'+(cx-4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/><circle cx="'+(cx+4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/>';
+      var tx=Math.max(8,w*0.12), ty=Math.max(6,h*0.075);
+      frame+='<path d="M'+cx+' '+(y+ty)+' L'+(x+tx)+' '+cy+' L'+cx+' '+(y+h-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
+      frame+='<path d="M'+cx+' '+(y+ty)+' L'+(x+w-tx)+' '+cy+' L'+cx+' '+(y+h-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
+    }
+    return {frame:frame, labels:labels};
+  }
+
+  /* ---- RESULT DIAGRAM: to-scale window; fixed pane always shown for SH/SS ---- */
+  function resultDiagram(winType, install, lenVal, openVal, sizes, counts, total, famM){
+    var D="#003D4C", O="#009CA6", GLASS="#e8f4f5", FRAME="#003D4C";
+    var SECH={"3":13,"4":17.375,"5":21.75};
+    var isHoriz=(install==="horizontal");
+
+    var isSH=(winType==="single-hung"), isSS=(winType==="single-slider");
+    var carve = (isSH && isHoriz) || (isSS && !isHoriz);   // guards skip the fixed pane ONLY here
+    var FIXFRAC=1.0;
+
+    /* operable dims (inches) */
+    var opWin = isHoriz ? lenVal : openVal;
+    var opHin = isHoriz ? openVal : lenVal;
+    var fixWin = (carve && isSS) ? opWin*FIXFRAC : 0;
+    var fixHin = (carve && isSH) ? opHin*FIXFRAC : 0;
+    var totWin = opWin+fixWin, totHin = opHin+fixHin;
+
+    var maxW=560, maxH=320;
+    var scale=Math.min(maxW/totWin, maxH/totHin);
+    var W=totWin*scale, H=totHin*scale;
+    var ow=opWin*scale, oh=opHin*scale, fw=fixWin*scale, fh=fixHin*scale;
+
+    var mL=60, mR=26, mT=46, mB=72;
+    var CW=Math.max(W+mL+mR, 300);
+    var CH=H+mT+mB;
+    var wx=mL+(CW-mL-mR-W)/2, wy=mT;
+    var cx=wx+W/2, cy=wy+H/2;
+
+    /* operable rect (where guards go) */
+    var ox=wx, oy=wy;
+    if(carve && isSH){ oy=wy+fh; }   // fixed on top → operable below
+    /* carve && isSS: operable on left (ox=wx, ow already = operable width)            */
+    /* non-carve / others: operable = full window (ow=W, oh=H by construction)         */
+
+    var svg='<rect x="'+wx+'" y="'+wy+'" width="'+W+'" height="'+H+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
+    var pills="";
+
+    /* ---- window-type art (under guards); FIXED pane shown for SH/SS in EVERY orientation ---- */
+    if(isSH){
+      var divY  = carve ? oy : (wy+H/2);     // carve: operable boundary; else: middle
+      var fHt   = carve ? fh : H/2;          // shaded top fixed-pane height
+      svg+='<rect x="'+(wx+2)+'" y="'+(wy+2)+'" width="'+(W-4)+'" height="'+(fHt-3)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
+      svg+='<line x1="'+wx+'" y1="'+divY+'" x2="'+(wx+W)+'" y2="'+divY+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      var pyc=wy+fHt/2, pw=Math.min(50,W-8);
+      pills+='<rect x="'+(cx-pw/2)+'" y="'+(pyc-9)+'" width="'+pw+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
+      pills+='<text x="'+cx+'" y="'+(pyc+3.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
+    } else if(winType==="double-hung"){
+      svg+='<line x1="'+wx+'" y1="'+cy+'" x2="'+(wx+W)+'" y2="'+cy+'" stroke="'+FRAME+'" stroke-width="2"/>';
+    } else if(isSS){
+      var divX  = carve ? (ox+ow) : (wx+W/2);
+      var fWd   = carve ? fw : W/2;          // shaded right fixed-pane width
+      svg+='<rect x="'+(divX+2)+'" y="'+(wy+2)+'" width="'+(fWd-4)+'" height="'+(H-4)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
+      svg+='<line x1="'+divX+'" y1="'+wy+'" x2="'+divX+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      var pcx=divX+fWd/2, pw2=Math.min(50,fWd-8);
+      pills+='<rect x="'+(pcx-pw2/2)+'" y="'+(cy-9)+'" width="'+pw2+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
+      pills+='<text x="'+pcx+'" y="'+(cy+3.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
+    } else if(winType==="double-slider"){
+      svg+='<line x1="'+cx+'" y1="'+wy+'" x2="'+cx+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
+    } else {
+      /* casement */
+      svg+='<line x1="'+cx+'" y1="'+wy+'" x2="'+cx+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      var ix=Math.max(4,W*0.04), iy=Math.max(4,H*0.055);
+      svg+='<rect x="'+(wx+ix)+'" y="'+(wy+iy)+'" width="'+(W/2-2*ix)+'" height="'+(H-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
+      svg+='<rect x="'+(cx+ix)+'" y="'+(wy+iy)+'" width="'+(W/2-2*ix)+'" height="'+(H-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
+      svg+='<circle cx="'+(cx-4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/><circle cx="'+(cx+4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/>';
+      var tx=Math.max(8,W*0.12), ty=Math.max(6,H*0.075);
+      svg+='<path d="M'+cx+' '+(wy+ty)+' L'+(wx+tx)+' '+cy+' L'+cx+' '+(wy+H-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
+      svg+='<path d="M'+cx+' '+(wy+ty)+' L'+(wx+W-tx)+' '+cy+' L'+cx+' '+(wy+H-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
+    }
+
+    /* ---- guards inside the OPERABLE area only ---- */
+    var gpad=7;
+    var gx=ox+gpad, gy=oy+gpad, gw=ow-2*gpad, gh=oh-2*gpad;
+    var tier=findTier(openVal);
+    var secs=(tier&&tier[2])?tier[2]:["3"];
+    var nSec=secs.length;
+    var totalWt=0; secs.forEach(function(sz){ totalWt+=(SECH[sz]||13); });
+
+    if(isHoriz){
+      var gap=nSec>1?Math.max(6,gh*0.05):0;
+      var avail=gh-gap*(nSec-1), off=0;
+      for(var si=0;si<nSec;si++){
+        var bc=parseInt(secs[si],10);
+        var segH=avail*(SECH[secs[si]]||13)/totalWt;
+        var sy=gy+off;
+        svg+='<rect x="'+gx+'" y="'+sy+'" width="'+gw+'" height="'+segH+'" fill="rgba(0,156,166,0.07)"/>';
+        for(var ki=1;ki<=bc;ki++){ var by=sy+segH*ki/(bc+1);
+          svg+='<line x1="'+gx+'" y1="'+by+'" x2="'+(gx+gw)+'" y2="'+by+'" stroke="'+O+'" stroke-width="3" stroke-linecap="round" opacity="0.92"/>'; }
+        svg+='<line x1="'+gx+'" y1="'+sy+'" x2="'+gx+'" y2="'+(sy+segH)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
+        svg+='<line x1="'+(gx+gw)+'" y1="'+sy+'" x2="'+(gx+gw)+'" y2="'+(sy+segH)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
+        off+=segH+gap;
+      }
+    } else {
+      var gap=nSec>1?Math.max(6,gw*0.05):0;
+      var avail=gw-gap*(nSec-1), off=0;
+      for(var si=0;si<nSec;si++){
+        var bc=parseInt(secs[si],10);
+        var segW=avail*(SECH[secs[si]]||13)/totalWt;
+        var sx=gx+off;
+        svg+='<rect x="'+sx+'" y="'+gy+'" width="'+segW+'" height="'+gh+'" fill="rgba(0,156,166,0.07)"/>';
+        for(var ki=1;ki<=bc;ki++){ var bx2=sx+segW*ki/(bc+1);
+          svg+='<line x1="'+bx2+'" y1="'+gy+'" x2="'+bx2+'" y2="'+(gy+gh)+'" stroke="'+O+'" stroke-width="3" stroke-linecap="round" opacity="0.92"/>'; }
+        svg+='<line x1="'+sx+'" y1="'+gy+'" x2="'+(sx+segW)+'" y2="'+gy+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
+        svg+='<line x1="'+sx+'" y1="'+(gy+gh)+'" x2="'+(sx+segW)+'" y2="'+(gy+gh)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
+        off+=segW+gap;
+      }
+    }
+
+    /* FIXED pills on top */
+    svg+=pills;
+
+    /* ---- dimension markers (opening spans operable only in the carve cases) ---- */
+    var wA=(carve && isSS)?ox:wx,  wB=(carve && isSS)?(ox+ow):(wx+W);
+    var hA=(carve && isSH)?oy:wy,  hB=(carve && isSH)?(oy+oh):(wy+H);
+    var topIsLength=isHoriz;
+    var topLabel=(topIsLength?trim(lenVal):trim(openVal))+'\u2033 '+(topIsLength?"LENGTH":"OPENING");
+    var topColor=topIsLength?D:O;
+    var leftLabel=(topIsLength?trim(openVal):trim(lenVal))+'\u2033 '+(topIsLength?"OPENING":"LENGTH");
+    var leftColor=topIsLength?O:D;
+
+    var topY=wy-20;
+    svg+=dash(wA,topY,wA,wy)+dash(wB,topY,wB,wy)+hArrow(wA,wB,topY,topColor)+txt((wA+wB)/2,topY-7,topColor,topLabel,false);
+    var leftX=wx-26;
+    svg+=dash(leftX,hA,wx,hA)+dash(leftX,hB,wx,hB)+vArrow(hA,hB,leftX,leftColor)+txt(leftX-9,(hA+hB)/2,leftColor,leftLabel,true);
+
+    /* ---- model tag ---- */
+    var items=sizes.map(function(sz){ return famM+"-"+sz+" \u00d7"+counts[sz]; });
+    var tagText="Model "+items.join("  +  ")+(total>1?"  (stacked)":"");
+    var pillW=Math.min(CW-16, tagText.length*6.6+30);
+    var pillX=(CW-pillW)/2, tagY=wy+H+24;
+    svg+='<rect x="'+pillX+'" y="'+tagY+'" width="'+pillW+'" height="26" rx="13" fill="'+D+'"/>'
+        +'<text x="'+(CW/2)+'" y="'+(tagY+17.5)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="13" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tagText+'</text>';
+
+    return '<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Installed window guard preview" style="width:100%;max-width:'+CW+'px;height:auto;">'+svg+'</svg>';
+  }
+
   function render(fam, sizes, counts, total){
     var data   = GA_DATA.variants[fam.m];
     var handle = GA_DATA.handles[fam.m];
+    var lenVal  = parseFloat($("gaf-len").value);
+    var openVal = parseFloat($("gaf-open").value);
 
     var cards = sizes.map(function(sz){
       var v = data[sz];
@@ -718,29 +902,27 @@
 
     var pairs   = sizes.map(function(sz){ return data[sz].id+":"+counts[sz]; }).join(",");
     var cartUrl = SHOP+"/cart/"+pairs+"?storefront=true";
+    var plural  = total===1 ? "GUARD" : "GUARDS";
 
-    var plural = total===1 ? "GUARD" : "GUARDS";
-    var orientHtml = "";
+    var vizHtml = "";
     if(install){
-      var o = ORIENT[install];
-      var wt = winType ? TYPES[winType] : null;
-      var wtLabel = wt ? " for a <strong>"+wt.label+"</strong> window" : "";
-      orientHtml = '<div class="gaf-orient">'+orientIcon(install)
-        +'<div>You measured'+wtLabel+' with a <strong>'+o.label.toLowerCase()+' install</strong>. '
-        +'The guard'+(total>1?'s':'')+' run'+(total>1?'':'s')+' '
-        +(install==="horizontal" ? "side-to-side across the window&rsquo;s width, with the bars covering the height."
-                                 : "top-to-bottom up the window&rsquo;s height, with the bars covering the width.")
-        +'</div></div>';
+      var typeLabel = TYPES[winType] ? TYPES[winType].label : "window";
+      vizHtml =
+        '<div class="gaf-resultviz">'
+        + '<p class="gaf-resultviz-cap">Here\u2019s your <strong>'+typeLabel+'</strong> with a <strong>'+install+' install</strong> \u2014 '
+        +   total+' guard'+(total>1?'s':'')+' covering a <strong>'+trim(lenVal)+'\u2033 \u00d7 '+trim(openVal)+'\u2033</strong> opening.</p>'
+        + resultDiagram(winType, install, lenVal, openVal, sizes, counts, total, fam.m)
+        + '</div>';
     }
 
     $("gaf-results").hidden = false;
     $("gaf-results").innerHTML =
         '<div class="gaf-summary"><span class="gaf-count">'+total+' '+plural+'</span>'
         +'<span class="gaf-fam">Model '+fam.m+' \u2022 '+fam.min+'&quot;\u2013'+fam.max+'&quot;</span></div>'
-        +'<p class="gaf-famsub">Based on a '+trim(parseFloat($("gaf-len").value))+'&quot; length and '+trim(parseFloat($("gaf-open").value))+'&quot; opening, here\u2019s what we recommend:</p>'
+        +'<p class="gaf-famsub">Based on a '+trim(lenVal)+'&quot; length and '+trim(openVal)+'&quot; opening, here\u2019s what we recommend:</p>'
         +'<div class="gaf-cards">'+cards+'</div>'
         +'<a class="gaf-cart" href="'+cartUrl+'" target="_blank" rel="noopener">Add '+(total>1?('all '+total+' '):'')+'to cart</a>'
-        +orientHtml;
+        +vizHtml;
 
     $("gaf-results").scrollIntoView({behavior:"smooth", block:"nearest"});
   }
