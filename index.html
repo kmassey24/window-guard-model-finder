@@ -73,20 +73,20 @@
     <p class="gaf-steplabel"><span class="gaf-num">3</span> Enter your measurements</p>
     <div class="gaf-inputs">
       <label class="gaf-field">
-        <span class="gaf-flabel">Length <em id="gaf-lenhint">(width, in inches)</em></span>
-        <input type="number" id="gaf-len" inputmode="decimal" min="0" step="0.125" placeholder="e.g. 32">
-      </label>
-      <label class="gaf-field">
-        <span class="gaf-flabel">Opening <em id="gaf-openhint">(height, in inches)</em></span>
+        <span class="gaf-flabel gaf-height-label">Height <em id="gaf-openhint">(top to bottom, in inches)</em></span>
         <input type="number" id="gaf-open" inputmode="decimal" min="0" step="0.125" placeholder="e.g. 24.25">
       </label>
+      <label class="gaf-field">
+        <span class="gaf-flabel gaf-width-label">Width <em id="gaf-lenhint">(side to side, in inches)</em></span>
+        <input type="number" id="gaf-len" inputmode="decimal" min="0" step="0.125" placeholder="e.g. 32">
+      </label>
     </div>
-    <p class="gaf-range">Guards fit lengths 14&quot;&ndash;120&quot; and openings up to 91&quot;. Not sure how to measure? See the
+    <p class="gaf-range">Guards fit most window areas with one side from 14&quot;&ndash;120&quot; and the other side up to 91&quot;. Not sure how to measure? See the
       <a href="https://gaguards.com/pages/instructions" target="_blank" rel="noopener">measuring instructions</a>.</p>
     <p class="gaf-recheck-msg" id="gaf-recheck" hidden>
       <strong>⚠️Reminder:</strong> If you changed between <strong>Horizontal</strong> and <strong>Vertical</strong>,
-      please double-check your <strong>window length and opening measurements</strong> according to
-      the diagram in Step 2. The measurement method may have changed.
+      please double-check your <strong>height and width measurements</strong> according to
+      the diagram in Step 2. The recommended measuring area may have changed.
     </p>
       <button id="gaf-go" class="gaf-go">Find my guards</button>
   </section>
@@ -135,8 +135,8 @@
   .gaf-note-steps{margin:0; padding-left:20px; font-size:15px;}
   .gaf-note-steps li{margin-bottom:4px; line-height:1.5;}
   .gaf-note-steps li:last-child{margin-bottom:0;}
-  .gaf-len-em{font-weight:700; color:var(--deep);}    /* deep teal = Length */
-  .gaf-open-em{font-weight:700; color:var(--teal);}   /* bright teal = Opening */
+  .gaf-width-em{font-weight:700; color:#6B3FA0;}
+  .gaf-height-em{font-weight:700; color:#F2B705;} 
 
   /* WINDOW TYPE PILLS */
   .gaf-types{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
@@ -184,7 +184,9 @@
   .gaf-inputs{display:flex; gap:20px; flex-wrap:wrap; padding-left:0;}
   .gaf-field{flex:1 1 220px; display:flex; flex-direction:column; gap:8px;}
   .gaf-flabel{font-size:17px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep); padding-top:8px;}
-  .gaf-flabel em{font-style:normal; font-weight:500; text-transform:none; letter-spacing:0; color:var(--teal); font-size:15px;}
+  .gaf-flabel em{font-style:normal; font-weight:500; text-transform:none; letter-spacing:0; font-size:15px;}
+  .gaf-width-label, .gaf-width-label em{color:#6B3FA0;}
+  .gaf-height-label, .gaf-height-label em{color:#F2B705;}
   .gaf-field input{font-family:inherit; font-size:24px; font-weight:600; color:var(--deep);
     padding:14px 16px; border:1.5px solid var(--line); border-radius:10px; background:var(--white); width:100%;}
   .gaf-field input:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(0,156,166,.18);}
@@ -371,9 +373,9 @@
   /* ---- INSTALL ORIENTATION ---- */
   const ORIENT = {
     "horizontal":{ label:"Horizontal", lenDim:"width", openDim:"height",
-      note:"The guard runs <strong>side-to-side</strong>. Measure the window&rsquo;s <strong>width</strong> as the Length, and the <strong>height</strong> it needs to cover as the Opening.", img:"" },
+      note:"The guard runs <strong>side-to-side</strong>. Use the window area&rsquo;s <strong>width</strong> and <strong>height</strong> exactly as shown in the diagram.", img:"" },
     "vertical":  { label:"Vertical",   lenDim:"height", openDim:"width",
-      note:"The guard runs <strong>top-to-bottom</strong>. Measure the window&rsquo;s <strong>height</strong> as the Length, and the <strong>width</strong> it needs to cover as the Opening.", img:"" }
+      note:"The guard runs <strong>top-to-bottom</strong>. Use the window area&rsquo;s <strong>width</strong> and <strong>height</strong> exactly as shown in the diagram.", img:"" }
   };
 
   /* ================================================================
@@ -495,10 +497,10 @@
     }
 
     /* Dimension arrows */
-    var wColor = isHoriz ? D : O;
-    var hColor = isHoriz ? O : D;
-    var wText  = isHoriz ? "LENGTH \u2013 width"   : "OPENING \u2013 width";
-    var hText  = isHoriz ? "OPENING \u2013 height" : "LENGTH \u2013 height";
+    var wColor = "#6B3FA0";
+    var hColor = "#F2B705";
+    var wText  = "WIDTH";
+    var hText  = "HEIGHT";
 
     /* Opening arrows only span the non-fixed pane in the two special cases:
        1. Single Hung plus Horizontal install: Opening is only the lower operable sash height.
@@ -655,10 +657,9 @@
     /* Reveal step 3 */
     $("gaf-step3").hidden = false;
 
-    /* Update input hints */
-    var o = ORIENT[install];
-    $("gaf-lenhint").textContent  = "("+o.lenDim+", in inches)";
-    $("gaf-openhint").textContent = "("+o.openDim+", in inches)";
+    /* Height and width stay the same for the customer. Internally, the calculator maps them to the correct sizing dimensions. */
+    $("gaf-lenhint").textContent  = "(side to side, in inches)";
+    $("gaf-openhint").textContent = "(top to bottom, in inches)";
   });
 
   function updateGuide(){
@@ -671,6 +672,9 @@
       ? '<img src="'+o.img+'" alt="'+o.label+' install measurement guide">'
       : diagram(winType, install);
 
+    var widthTip = install === "horizontal" ? "The bottom arrow shows the width to enter below." : "The bottom arrow shows the width of the area the guard needs to cover.";
+    var heightTip = install === "horizontal" ? "The side arrow shows the height of the area the guard needs to cover." : "The side arrow shows the height to enter below.";
+
     $("gaf-typenote").innerHTML =
         '<p class="gaf-note-eyebrow">Your Measuring Guide</p>'
       + '<p class="gaf-note-head">'+typeInfo.label+'</p>'
@@ -678,10 +682,8 @@
       + '<p class="gaf-note-sub">How to measure the window</p>'
       + '<p class="gaf-note-run">The guard runs <strong>'+runDir+'</strong>.</p>'
       + '<ol class="gaf-note-steps">'
-      +   '<li>Measure the window\u2019s <strong>'+o.lenDim+'</strong> as the '
-      +     '<span class="gaf-len-em">Length (the deep teal arrow is your Length)</span>.</li>'
-      +   '<li>Measure the window\u2019s <strong>'+o.openDim+'</strong> as the '
-      +     '<span class="gaf-open-em">Opening (the bright teal arrow is your Opening)</span>.</li>'
+      +   '<li><span class="gaf-height-em">Height:</span> measure top to bottom. '+heightTip+'</li>'
+      +   '<li><span class="gaf-width-em">Width:</span> measure side to side. '+widthTip+'</li>'
       + '</ol>';
 
     $("gaf-typepanel").hidden = false;
@@ -750,29 +752,38 @@
   $("gaf-open").addEventListener("input", clearRecheck);
 
   function run(){
-    var len  = parseFloat($("gaf-len").value);
-    var open = parseFloat($("gaf-open").value);
+    var width  = parseFloat($("gaf-len").value);
+    var height = parseFloat($("gaf-open").value);
 
-    if(isNaN(len) || isNaN(open) || len<=0 || open<=0){
-      return msg("Enter both a length and an opening measurement to see your guards.", "err");
+    if(isNaN(width) || isNaN(height) || width<=0 || height<=0){
+      return msg("Enter both the window height and width to see your guards.", "err");
     }
+
+    /* Internal sizing map:
+       Horizontal install uses width as length and height as opening.
+       Vertical install uses height as length and width as opening. */
+    var len  = install === "horizontal" ? width : height;
+    var open = install === "horizontal" ? height : width;
+    var longSideName = install === "horizontal" ? "width" : "height";
+    var coverSideName = install === "horizontal" ? "height" : "width";
+
     if(len < LEN_MIN || len > LEN_MAX){
-      return msg("We cover window lengths from <strong>14&quot; to 120&quot;</strong>. For "+trim(len)+"&quot;, please <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a> for a custom recommendation.", "err");
+      return msg("For this install direction, the window "+longSideName+" must be from <strong>14&quot; to 120&quot;</strong>. Your "+longSideName+" is "+trim(len)+"&quot;. Please <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a> for a custom recommendation.", "err");
     }
     if(open > OPEN_MAX){
-      return msg("An opening of "+trim(open)+"&quot; is larger than a single stacked column covers (max 91&quot;). Please <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a> and we&rsquo;ll help you combine guards.", "info");
+      return msg("For this install direction, the window "+coverSideName+" is larger than one stacked guard set can cover. Please <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a> and we&rsquo;ll help you combine guards.", "info");
     }
 
     var fam  = findFamily(len);
     var tier = findTier(open);
-    if(!fam || !tier) return msg("Something went off-script with those numbers &mdash; please double-check them or <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a>.", "err");
+    if(!fam || !tier) return msg("Something went off-script with those numbers. Please double-check the height and width, or <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a>.", "err");
 
     var counts = {};
     tier[2].forEach(function(sz){ counts[sz] = (counts[sz]||0)+1; });
     var sizes = Object.keys(counts).sort();
     var totalGuards = tier[2].length;
 
-    render(fam, sizes, counts, totalGuards);
+    render(fam, sizes, counts, totalGuards, width, height);
   }
 
   function trim(n){ return (Math.round(n*1000)/1000).toString(); }
@@ -929,11 +940,12 @@
     /* ---- dimension markers (opening spans operable only in the carve cases) ---- */
     var wA=(carve && isSS)?ox:wx,  wB=(carve && isSS)?(ox+ow):(wx+W);
     var hA=(carve && isSH)?oy:wy,  hB=(carve && isSH)?(oy+oh):(wy+H);
-    var topIsLength=isHoriz;
-    var topLabel=(topIsLength?trim(lenVal):trim(openVal))+'\u2033 '+(topIsLength?"LENGTH":"OPENING");
-    var topColor=topIsLength?D:O;
-    var leftLabel=(topIsLength?trim(openVal):trim(lenVal))+'\u2033 '+(topIsLength?"OPENING":"LENGTH");
-    var leftColor=topIsLength?O:D;
+    var widthVal = isHoriz ? lenVal : openVal;
+    var heightVal = isHoriz ? openVal : lenVal;
+    var topLabel=trim(widthVal)+'\u2033 WIDTH';
+    var topColor=D;
+    var leftLabel=trim(heightVal)+'\u2033 HEIGHT';
+    var leftColor=O;
 
     var bottomY=wy+H+20;
     svg+=dash(wA,bottomY,wA,wy+H)+dash(wB,bottomY,wB,wy+H)+hArrow(wA,wB,bottomY,topColor)+txt((wA+wB)/2,bottomY+17,topColor,topLabel,false);
@@ -951,11 +963,13 @@
     return '<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Installed window guard preview" style="width:100%;max-width:'+CW+'px;height:auto;">'+svg+'</svg>';
   }
 
-  function render(fam, sizes, counts, total){
+  function render(fam, sizes, counts, total, widthVal, heightVal){
     var data   = GA_DATA.variants[fam.m];
     var handle = GA_DATA.handles[fam.m];
-    var lenVal  = parseFloat($("gaf-len").value);
-    var openVal = parseFloat($("gaf-open").value);
+    widthVal = typeof widthVal === "number" ? widthVal : parseFloat($("gaf-len").value);
+    heightVal = typeof heightVal === "number" ? heightVal : parseFloat($("gaf-open").value);
+    var lenVal  = install === "horizontal" ? widthVal : heightVal;
+    var openVal = install === "horizontal" ? heightVal : widthVal;
 
     var cards = sizes.map(function(sz){
       var v = data[sz];
@@ -982,8 +996,8 @@
       var typeLabel = TYPES[winType] ? TYPES[winType].label : "window";
       vizHtml =
         '<div class="gaf-resultviz">'
-        + '<p class="gaf-resultviz-cap">Here\u2019s your <strong>'+typeLabel+'</strong> with a <strong>'+install+' install</strong> \u2014 '
-        +   total+' guard'+(total>1?'s':'')+' covering a <strong>'+trim(lenVal)+'\u2033 \u00d7 '+trim(openVal)+'\u2033</strong> opening.</p>'
+        + '<p class="gaf-resultviz-cap">Here\u2019s your <strong>'+typeLabel+'</strong> with a <strong>'+install+' install</strong>. '
+        +   total+' guard'+(total>1?'s':'')+' for a <strong>'+trim(widthVal)+'\u2033 wide \u00d7 '+trim(heightVal)+'\u2033 high</strong> window area.</p>'
         + resultDiagram(winType, install, lenVal, openVal, sizes, counts, total, fam.m)
         + '</div>';
     }
@@ -992,7 +1006,7 @@
     $("gaf-results").innerHTML =
         '<div class="gaf-summary"><span class="gaf-count">'+total+' '+plural+'</span>'
         +'<span class="gaf-fam">Model '+fam.m+' \u2022 '+fam.min+'&quot;\u2013'+fam.max+'&quot;</span></div>'
-        +'<p class="gaf-famsub">Based on a '+trim(lenVal)+'&quot; length and '+trim(openVal)+'&quot; opening, here\u2019s what we recommend <strong>per window</strong>:</p>'
+        +'<p class="gaf-famsub">Based on a '+trim(widthVal)+'&quot; wide by '+trim(heightVal)+'&quot; high window area, here\u2019s what we recommend <strong>per window</strong>:</p>'
         +'<div class="gaf-cards">'+cards+'</div>'
         +'<div class="gaf-qtyrow">'
           +'<span class="gaf-qtylabel">Windows this size</span>'
