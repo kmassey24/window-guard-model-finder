@@ -1,102 +1,116 @@
 <!-- ===========================================-->
 <!--  GUARDIAN ANGEL WINDOW GUARDS MODEL FINDER -->
 <!-- ===========================================-->
-<!--  Version 5 -->
+<!--  Version 6 — split-screen "build as you go" -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <div id="ga-finder">
   <header class="gaf-head">
     <p class="gaf-eyebrow">Window Guard Model Finder</p>
-    <h2 class="gaf-title">Find the right guard for your window</h2>
-    <p class="gaf-sub">Answer two quick questions, enter two measurements, and we'll show you exactly which guard(s) to order.</p>
+    <h2 class="gaf-title">Find the right solution for your window</h2>
+    <p class="gaf-sub">Answer 2 quick questions and enter 2 measurements to get the perfect window guard solution in seconds.</p>
   </header>
 
-  <!-- STEP 1 — WINDOW TYPE -->
-  <section class="gaf-step">
-    <p class="gaf-steplabel"><span class="gaf-num">1</span> What type of window do you have?</p>
-    <p class="gaf-stephint">Select your window type so we can show you the correct measuring guide.</p>
-    <div class="gaf-types" id="gaf-types" role="radiogroup" aria-label="Window type">
-      <button class="gaf-type" data-type="single-hung" role="radio" aria-checked="false">
-        <span class="gaf-type-icon" id="icon-single-hung"></span>
-        <span class="gaf-type-t">Single Hung</span>
-      </button>
-      <button class="gaf-type" data-type="double-hung" role="radio" aria-checked="false">
-        <span class="gaf-type-icon" id="icon-double-hung"></span>
-        <span class="gaf-type-t">Double Hung</span>
-      </button>
-      <button class="gaf-type" data-type="single-slider" role="radio" aria-checked="false">
-        <span class="gaf-type-icon" id="icon-single-slider"></span>
-        <span class="gaf-type-t">Single Slider</span>
-      </button>
-      <button class="gaf-type" data-type="double-slider" role="radio" aria-checked="false">
-        <span class="gaf-type-icon" id="icon-double-slider"></span>
-        <span class="gaf-type-t">Double Slider</span>
-      </button>
-      <button class="gaf-type" data-type="casement" role="radio" aria-checked="false">
-        <span class="gaf-type-icon" id="icon-casement"></span>
-        <span class="gaf-type-t">Casement</span>
-      </button>
-    </div>
-  </section>
+  <div class="gaf-layout">
 
-  <!-- STEP 2 — INSTALL DIRECTION -->
-  <section class="gaf-step" id="gaf-step2" hidden>
-    <p class="gaf-steplabel"><span class="gaf-num">2</span> How will the guard be installed?</p>
-    <p class="gaf-stephint">Guards can be mounted either way. Select the direction you plan to install. We will then show you what to measure.</p>
-    <div class="gaf-installs" id="gaf-installs" role="radiogroup" aria-label="Install direction">
-      <button class="gaf-install" data-install="horizontal" role="radio" aria-checked="false">
-        <span class="gaf-rec-badge" aria-hidden="true">✦ Recommended</span>
-        <span class="gaf-install-icon" id="icon-horiz"></span>
-        <span class="gaf-install-copy">
-          <span class="gaf-install-t">Horizontal</span>
-          <span class="gaf-install-d">Bars run left&#8209;to&#8209;right</span>
-        </span>
-      </button>
-      <button class="gaf-install" data-install="vertical" role="radio" aria-checked="false">
-        <span class="gaf-rec-badge" aria-hidden="true">✦ Recommended</span>
-        <span class="gaf-install-icon" id="icon-vert"></span>
-        <span class="gaf-install-copy">
-          <span class="gaf-install-t">Vertical</span>
-          <span class="gaf-install-d">Bars run top&#8209;to&#8209;bottom</span>
-        </span>
-      </button>
-    </div>
-    <div class="gaf-typepanel" id="gaf-typepanel" hidden>
-      <div class="gaf-typeimg" id="gaf-typeimg"></div>
-      <div class="gaf-typenote" id="gaf-typenote"></div>
-    </div>
-  </section>
+    <!-- ============ LEFT: STEPS + RESULTS ============ -->
+    <div class="gaf-left">
 
-  <!-- STEP 3 — MEASUREMENTS -->
-  <section class="gaf-step" id="gaf-step3" hidden>
-    <p class="gaf-steplabel"><span class="gaf-num">3</span> Enter your measurements</p>
-    <div class="gaf-inputs">
-      <label class="gaf-field">
-        <span class="gaf-flabel gaf-height-label">Height <em id="gaf-openhint">(top to bottom, in inches)</em></span>
-        <input type="number" id="gaf-open" inputmode="decimal" min="0" step="0.125" placeholder="e.g. 24.25">
-      </label>
-      <label class="gaf-field">
-        <span class="gaf-flabel gaf-width-label">Width <em id="gaf-lenhint">(side to side, in inches)</em></span>
-        <input type="number" id="gaf-len" inputmode="decimal" min="0" step="0.125" placeholder="e.g. 32">
-      </label>
+      <!-- STEP 1 — WINDOW TYPE -->
+      <section class="gaf-step">
+        <p class="gaf-steplabel"><span class="gaf-num">1</span> What type of window do you have?</p>
+        <p class="gaf-stephint">Select your window type so we can show the correct measuring guide.</p>
+        <div class="gaf-types" id="gaf-types" role="radiogroup" aria-label="Window type">
+          <button class="gaf-type" data-type="single-hung" role="radio" aria-checked="false">
+            <span class="gaf-type-icon" id="icon-single-hung"></span>
+            <span class="gaf-type-t">Single Hung</span>
+          </button>
+          <button class="gaf-type" data-type="double-hung" role="radio" aria-checked="false">
+            <span class="gaf-type-icon" id="icon-double-hung"></span>
+            <span class="gaf-type-t">Double Hung</span>
+          </button>
+          <button class="gaf-type" data-type="single-slider" role="radio" aria-checked="false">
+            <span class="gaf-type-icon" id="icon-single-slider"></span>
+            <span class="gaf-type-t">Single Slider</span>
+          </button>
+          <button class="gaf-type" data-type="double-slider" role="radio" aria-checked="false">
+            <span class="gaf-type-icon" id="icon-double-slider"></span>
+            <span class="gaf-type-t">Double Slider</span>
+          </button>
+          <button class="gaf-type" data-type="casement" role="radio" aria-checked="false">
+            <span class="gaf-type-icon" id="icon-casement"></span>
+            <span class="gaf-type-t">Casement</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- STEP 2 — INSTALL DIRECTION -->
+      <section class="gaf-step" id="gaf-step2" hidden>
+        <p class="gaf-steplabel"><span class="gaf-num">2</span> How will the guard be installed?</p>
+        <p class="gaf-stephint">Guards mount either way. Pick a direction and the preview on the right will update.</p>
+        <div class="gaf-installs" id="gaf-installs" role="radiogroup" aria-label="Install direction">
+          <button class="gaf-install" data-install="horizontal" role="radio" aria-checked="false">
+            <span class="gaf-rec-badge" aria-hidden="true">✦ Recommended</span>
+            <span class="gaf-install-icon" id="icon-horiz"></span>
+            <span class="gaf-install-copy">
+              <span class="gaf-install-t">Horizontal</span>
+              <span class="gaf-install-d">Bars run left&#8209;to&#8209;right</span>
+            </span>
+          </button>
+          <button class="gaf-install" data-install="vertical" role="radio" aria-checked="false">
+            <span class="gaf-rec-badge" aria-hidden="true">✦ Recommended</span>
+            <span class="gaf-install-icon" id="icon-vert"></span>
+            <span class="gaf-install-copy">
+              <span class="gaf-install-t">Vertical</span>
+              <span class="gaf-install-d">Bars run top&#8209;to&#8209;bottom</span>
+            </span>
+          </button>
+        </div>
+        <div class="gaf-guidebox" id="gaf-guidebox" hidden>
+          <div class="gaf-typenote" id="gaf-typenote"></div>
+        </div>
+      </section>
+
+      <!-- STEP 3 — MEASUREMENTS -->
+      <section class="gaf-step" id="gaf-step3" hidden>
+        <p class="gaf-steplabel"><span class="gaf-num">3</span> Enter your measurements</p>
+        <div class="gaf-inputs">
+          <label class="gaf-field">
+            <span class="gaf-flabel gaf-height-label">Height <em id="gaf-openhint">(top to bottom, in inches)</em></span>
+            <input type="number" id="gaf-open" inputmode="decimal" min="0" step="0.125" placeholder="e.g. 24.25">
+          </label>
+          <label class="gaf-field">
+            <span class="gaf-flabel gaf-width-label">Width <em id="gaf-lenhint">(side to side, in inches)</em></span>
+            <input type="number" id="gaf-len" inputmode="decimal" min="0" step="0.125" placeholder="e.g. 32">
+          </label>
+        </div>
+        <p class="gaf-range">Guards fit most window areas with one side from 14&quot;&ndash;120&quot; and the other side up to 91&quot;. Not sure how to measure? See the
+          <a href="https://gaguards.com/pages/instructions" target="_blank" rel="noopener">measuring instructions</a>.</p>
+        <p class="gaf-recheck-msg" id="gaf-recheck" hidden>
+          <strong>⚠️ Reminder:</strong> If you changed between <strong>Horizontal</strong> and <strong>Vertical</strong>,
+          please double-check your <strong>height and width</strong> against the diagram. The measuring area may have changed.
+        </p>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="gaf-results" id="gaf-results" hidden aria-live="polite"></section>
+
+      <!-- START OVER -->
+      <div class="gaf-reset-wrap">
+        <button id="gaf-reset" class="gaf-reset" hidden>↺ Start over</button>
+      </div>
     </div>
-    <p class="gaf-range">Guards fit most window areas with one side from 14&quot;&ndash;120&quot; and the other side up to 91&quot;. Not sure how to measure? See the
-      <a href="https://gaguards.com/pages/instructions" target="_blank" rel="noopener">measuring instructions</a>.</p>
-    <p class="gaf-recheck-msg" id="gaf-recheck" hidden>
-      <strong>⚠️Reminder:</strong> If you changed between <strong>Horizontal</strong> and <strong>Vertical</strong>,
-      please double-check your <strong>height and width measurements</strong> according to
-      the diagram in Step 2. The recommended measuring area may have changed.
-    </p>
-      <button id="gaf-go" class="gaf-go">Find my guards</button>
-  </section>
 
-  <!-- RESULTS -->
-  <section class="gaf-results" id="gaf-results" hidden aria-live="polite"></section>
+    <!-- ============ RIGHT: LIVE MODEL ============ -->
+    <div class="gaf-right">
+      <div class="gaf-stage-card">
+        <p class="gaf-stage-eyebrow">Live preview</p>
+        <p class="gaf-stage-cap" id="gaf-stagecap">Your preview builds here as you make your selections.</p>
+        <div class="gaf-stage" id="gaf-stage"></div>
+      </div>
+    </div>
 
-  <!-- START OVER -->
-  <div class="gaf-reset-wrap">
-    <button id="gaf-reset" class="gaf-reset" hidden>↺ Start over</button>
   </div>
 </div>
 
@@ -104,111 +118,115 @@
   #ga-finder{
     --deep:#003D4C; --teal:#009CA6; --light:#D1E6E8; --red:#DC6262;
     --ink:#1c3a42; --line:#cbdadc; --soft:#f3f8f8; --white:#fff;
+    --w-accent:#6B3FA0; --h-accent:#008000;
     font-family:"Rajdhani",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    color:var(--ink); max-width:800px; margin:0 auto; line-height:1.5;
+    color:var(--ink); max-width:1100px; margin:0 auto; line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
   #ga-finder *{box-sizing:border-box;}
   #ga-finder h2,#ga-finder p{margin:0;}
 
   /* HEADER */
-  .gaf-head{text-align:center; padding:12px 0 18px;}
-  .gaf-eyebrow{font-size:13px; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--teal); margin-bottom:10px;}
-  .gaf-title{font-size:34px; font-weight:700; letter-spacing:.01em; color:var(--deep); line-height:1.1;}
-  .gaf-sub{font-size:17px; font-weight:400; color:var(--ink); margin-top:10px; opacity:.85;}
+  .gaf-head{text-align:center; padding:12px 0 8px;}
+  .gaf-eyebrow{font-size:13px; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--teal); padding-bottom:6px;}
+  .gaf-title{font-size:34px; font-weight:700; letter-spacing:.01em; color:var(--deep); line-height:1.1; padding-bottom:6px;}
+  .gaf-sub{font-size:17px; font-weight:400; color:var(--ink); margin-top:10px; opacity:.85; padding-bottom:6px;}
+
+  /* SPLIT LAYOUT */
+  .gaf-layout{display:flex; gap:30px; align-items:flex-start; padding-top:14px;}
+  .gaf-left{flex:1 1 50%; min-width:0;}
+  .gaf-right{flex:1 1 50%; min-width:0; position:sticky; top:16px;}
 
   /* STEPS */
   .gaf-step{padding:16px 0; border-top:1px solid var(--line);}
-  .gaf-steplabel{display:flex; align-items:center; gap:12px; font-size:19px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--deep); margin-bottom:10px;}
-  .gaf-num{display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:var(--deep); color:#fff; font-size:15px; font-weight:700; flex-shrink:0;}
-  .gaf-stephint{font-size:15px; color:var(--ink); opacity:.8; padding-top:0px; padding-bottom:8px; padding-left:42px;}
-
-  /* STEP 2 MEASURING-GUIDE NOTE */
-  .gaf-typenote{font-size:15px;}                        /* slightly smaller body */
-  .gaf-note-eyebrow{font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); margin-bottom:6px;}
-  .gaf-note-head{font-size:23px; font-weight:700; color:var(--deep); margin-bottom:6px; line-height:1.1;}
-  .gaf-note-desc{font-size:15px; margin-bottom:18px;}
-  .gaf-note-sub{font-size:12.5px; font-weight:700; text-transform:uppercase; letter-spacing:.13em;
-    color:var(--teal); margin-bottom:8px; padding-top:4px;
-    border-top:1px solid var(--line); padding-top:14px;}
-  .gaf-note-run{font-size:15px; margin-bottom:10px;}
-  .gaf-note-steps{margin:0; padding-left:20px; font-size:15px;}
-  .gaf-note-steps li{margin-bottom:4px; line-height:1.5;}
-  .gaf-note-steps li:last-child{margin-bottom:0;}
-  .gaf-width-em{font-weight:700; color:#6B3FA0;}
-  .gaf-height-em{font-weight:700; color:#F2B705;} 
+  .gaf-step:first-child{border-top:none; padding-top:6px;}
+  .gaf-steplabel{display:flex; align-items:center; gap:11px; font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep); margin-bottom:9px;}
+  .gaf-num{display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:var(--deep); color:#fff; font-size:14px; font-weight:700; flex-shrink:0;}
+  .gaf-stephint{font-size:14px; color:var(--ink); opacity:.8; padding-bottom:10px; padding-left:39px;}
 
   /* WINDOW TYPE PILLS */
-  .gaf-types{display:grid; grid-template-columns:repeat(5,1fr); gap:12px;}
-  .gaf-type{font-family:inherit; text-align:center; cursor:pointer; padding:16px 10px 14px; border:1.5px solid var(--line);
-    background:var(--white); border-radius:14px; display:flex; flex-direction:column; align-items:center; gap:10px; transition:all .15s ease;}
+  .gaf-types{display:grid; grid-template-columns:repeat(5,1fr); gap:9px;}
+  .gaf-type{font-family:inherit; text-align:center; cursor:pointer; padding:14px 6px 11px; border:1.5px solid var(--line);
+    background:var(--white); border-radius:13px; display:flex; flex-direction:column; align-items:center; gap:9px; transition:all .15s ease;}
   .gaf-type:hover{border-color:var(--teal); background:var(--soft);}
   .gaf-type[aria-checked="true"]{border-color:var(--deep); background:var(--soft); box-shadow:inset 0 0 0 1px var(--deep);}
   .gaf-type:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
-  .gaf-type-icon{width:52px; height:52px; display:block;}
-  .gaf-type-icon svg{width:52px; height:52px; display:block;}
-  .gaf-type-t{font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep); line-height:1.2;}
+  .gaf-type-icon{width:46px; height:46px; display:block;}
+  .gaf-type-icon svg{width:46px; height:46px; display:block;}
+  .gaf-type-t{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--deep); line-height:1.2;}
 
   /* INSTALL DIRECTION PILLS */
-  .gaf-installs{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
-  .gaf-install{font-family:inherit; text-align:left; cursor:pointer; padding:18px 20px; border:1.5px solid var(--line);
-    background:var(--white); border-radius:14px; display:flex; flex-direction:row; align-items:center; gap:16px; transition:all .15s ease; position:relative;}
+  .gaf-installs{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .gaf-install{font-family:inherit; text-align:left; cursor:pointer; padding:16px 16px; border:1.5px solid var(--line);
+    background:var(--white); border-radius:13px; display:flex; flex-direction:row; align-items:center; gap:13px; transition:all .15s ease; position:relative;}
   .gaf-install:hover{border-color:var(--teal); background:var(--soft);}
   .gaf-install.is-recommended{border-color:var(--teal); background:linear-gradient(180deg,#ffffff 0%,#f3fbfb 100%); box-shadow:0 0 0 1px rgba(0,156,166,.22), 0 8px 18px rgba(0,61,76,.08);}
   .gaf-install.is-recommended:hover{border-color:var(--deep); background:var(--soft);}
-  .gaf-rec-badge{display:none; position:absolute; top:9px; right:10px; align-items:center; gap:4px; padding:3px 8px;
-    border-radius:999px; background:#eefbfc; border:1px solid rgba(0,156,166,.35); color:var(--teal);
-    font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; line-height:1.2; box-shadow:0 2px 8px rgba(0,61,76,.07);}
+  .gaf-rec-badge{display:none; position:absolute; top:8px; right:9px; align-items:center; gap:3px; padding:2px 6px; 
+    border-radius:999px; background:#eefbfc; border:1px solid rgba(0,156,166,.35); color:var(--teal); font-size:9px;
+    font-weight:800; text-transform:uppercase; letter-spacing:.045em; line-height:1.15; box-shadow:0 2px 8px rgba(0,61,76,.07);}
   .gaf-install.is-recommended .gaf-rec-badge{display:inline-flex;}
-  .gaf-install.is-recommended .gaf-install-t{padding-right:88px;}
-
+  .gaf-install.is-recommended .gaf-install-t{padding-right:80px;}
   .gaf-install[aria-checked="true"]{border-color:var(--deep); background:var(--soft); box-shadow:inset 0 0 0 1px var(--deep);}
   .gaf-install:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
-  .gaf-install-icon{flex:0 0 52px; width:52px; height:52px;}
-  .gaf-install-icon svg{width:52px; height:52px; display:block;}
-  .gaf-install-t{font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep); display:block; margin-bottom:4px;}
-  .gaf-install-d{font-size:14px; color:var(--ink); opacity:.82; line-height:1.4; display:block;}
+  .gaf-install-icon{flex:0 0 46px; width:46px; height:46px;}
+  .gaf-install-icon svg{width:46px; height:46px; display:block;}
+  .gaf-install-t{font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--deep); display:block; margin-bottom:3px;}
+  .gaf-install-d{font-size:13px; color:var(--ink); opacity:.82; line-height:1.4; display:block;}
 
-  /* MEASURE GUIDE PANEL */
-  .gaf-typepanel{display:flex; gap:0px; align-items:center; margin-top:22px; padding:22px 24px;
-    background:var(--soft); border:1px solid var(--line); border-radius:16px;}
-  .gaf-typeimg{flex:0 0 360px;}
-  .gaf-typeimg svg{width:360px; height:auto; display:block;}
-  .gaf-typeimg img{width:360px; height:auto; display:block; border-radius:8px;}
-  .gaf-typenote{font-size:16px; color:var(--ink); line-height:1.65;}
-  .gaf-typenote strong{color:var(--deep);}
-  .gaf-typenote p{margin:0 0 10px;}
-  .gaf-typenote p:last-child{margin:0;}
+  /* MEASURING GUIDE TEXT (no image — the model lives on the right now) */
+  .gaf-guidebox{margin-top:16px; padding:18px 20px; background:var(--soft); border:1px solid var(--line); border-radius:14px;}
+  .gaf-typenote{font-size:15px; color:var(--ink); line-height:1.55;}
+  .gaf-note-eyebrow{font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); margin-bottom:6px;}
+  .gaf-note-head{font-size:22px; font-weight:700; color:var(--deep); margin-bottom:6px; line-height:1.1;}
+  .gaf-note-desc{font-size:15px; margin-bottom:14px;}
+  .gaf-note-sub{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.13em;
+    color:var(--teal); margin-bottom:8px; border-top:1px solid var(--line); padding-top:13px;}
+  .gaf-note-run{font-size:15px; margin-bottom:9px;}
+  .gaf-note-steps{margin:0; padding-left:20px; font-size:15px;}
+  .gaf-note-steps li{margin-bottom:4px; line-height:1.5;}
+  .gaf-note-steps li:last-child{margin-bottom:0;}
+  .gaf-width-em{font-weight:700; color:var(--w-accent);}
+  .gaf-height-em{font-weight:700; color:var(--h-accent);}
 
   /* INPUTS */
-  .gaf-inputs{display:flex; gap:20px; flex-wrap:wrap; padding-left:0;}
-  .gaf-field{flex:1 1 220px; display:flex; flex-direction:column; gap:8px;}
-  .gaf-flabel{font-size:17px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep); padding-top:8px;}
-  .gaf-flabel em{font-style:normal; font-weight:500; text-transform:none; letter-spacing:0; font-size:15px;}
-  .gaf-width-label, .gaf-width-label em{color:#6B3FA0;}
-  .gaf-height-label, .gaf-height-label em{color:#F2B705;}
-  .gaf-field input{font-family:inherit; font-size:24px; font-weight:600; color:var(--deep);
-    padding:14px 16px; border:1.5px solid var(--line); border-radius:10px; background:var(--white); width:100%;}
+  .gaf-inputs{display:flex; gap:16px; flex-wrap:wrap;}
+  .gaf-field{flex:1 1 180px; display:flex; flex-direction:column; gap:7px;}
+  .gaf-flabel{font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--deep); padding-top:4px;}
+  .gaf-flabel em{font-style:normal; font-weight:500; text-transform:none; letter-spacing:0; font-size:13.5px;}
+  .gaf-width-label, .gaf-width-label em{color:var(--w-accent);}
+  .gaf-height-label, .gaf-height-label em{color:var(--h-accent);}
+  .gaf-field input{font-family:inherit; font-size:22px; font-weight:600; color:var(--deep);
+    padding:12px 14px; border:1.5px solid var(--line); border-radius:10px; background:var(--white); width:100%;}
   .gaf-field input:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(0,156,166,.18);}
-  .gaf-range{font-size:14px; padding-top:8px; color:var(--ink); opacity:.8; line-height:1.5;}
+  .gaf-range{font-size:13.5px; padding-top:10px; color:var(--ink); opacity:.8; line-height:1.5;}
   .gaf-range a{color:var(--teal); font-weight:600;}
 
-  .gaf-go{margin-top:22px; width:100%; font-family:inherit; font-size:20px; font-weight:700;
-    text-transform:uppercase; letter-spacing:.08em; color:#fff; background:var(--deep);
-    border:none; border-radius:12px; padding:17px; cursor:pointer; transition:background .15s ease;}
-  .gaf-go:hover{background:var(--teal);}
-  .gaf-go:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
+  /* RE-CHECK REMINDER */
+  .gaf-field input.gaf-recheck{background:#fbeaea; border-color:var(--red);}
+  .gaf-recheck-msg{margin-top:12px; padding:12px 15px; background:#fbeaea; border:1px solid var(--red);
+    border-radius:10px; font-size:13.5px; color:#8a2b2b; line-height:1.55;}
+  .gaf-recheck-msg strong{color:#8a2b2b;}
+
+  /* RIGHT-SIDE LIVE MODEL */
+  .gaf-stage-card{background:var(--soft); border:1px solid var(--line); border-radius:18px; padding:18px 20px 18px;}
+  .gaf-stage-eyebrow{font-size:11.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--teal); text-align:center; margin-bottom:8px;}
+  .gaf-stage-cap{font-size:14px; color:var(--ink); opacity:.9; text-align:center; line-height:1.5; margin:0 0 14px;}
+  .gaf-stage-cap strong{color:var(--deep); opacity:1;}
+  .gaf-stage{display:flex; align-items:center; justify-content:center; min-height:245px;}
+  .gaf-stage svg{width:100%; max-width:380px; height:auto; display:block;}
 
   /* RESULTS */
-  .gaf-results{padding-top:28px; border-top:1px solid var(--line);}
-  .gaf-msg{padding:18px 20px; border-radius:14px; font-size:17px; font-weight:500; line-height:1.5;}
+  .gaf-results{padding-top:20px; margin-top:4px; border-top:1px solid var(--line);}
+  .gaf-msg{padding:16px 18px; border-radius:14px; font-size:16px; font-weight:500; line-height:1.5;}
   .gaf-msg.err{background:#fbeaea; border:1px solid var(--red); color:#8a2b2b;}
   .gaf-msg.info{background:var(--light); border:1px solid var(--teal); color:var(--deep);}
+  .gaf-msg a{color:inherit; font-weight:700;}
 
   .gaf-summary{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px;}
-  .gaf-count{font-size:32px; font-weight:700; color:var(--deep); line-height:1;}
-  .gaf-fam{font-size:18px; font-weight:600; color:var(--teal); text-transform:uppercase; letter-spacing:.05em;}
-  .gaf-famsub{font-size:16px; color:var(--ink); opacity:.8; padding-bottom:18px; line-height:1.5;}
+  .gaf-count{font-size:30px; font-weight:700; color:var(--deep); line-height:1;}
+  .gaf-fam{font-size:17px; font-weight:600; color:var(--teal); text-transform:uppercase; letter-spacing:.05em;}
+  .gaf-famsub{font-size:15px; color:var(--ink); opacity:.8; padding-bottom:16px; line-height:1.5;}
 
   .gaf-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,230px)); gap:16px; justify-content:center;}
   .gaf-card{border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--white); display:flex; flex-direction:column;}
@@ -225,81 +243,64 @@
   .gaf-card-link::after{content:"\2192"; transition:transform .15s ease;}
   .gaf-card-link:hover::after{transform:translateX(3px);}
 
+  .gaf-qtyrow{margin-top:20px; display:flex; align-items:center; justify-content:center; gap:13px; flex-wrap:wrap;}
+  .gaf-qtylabel{font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep);}
+  .gaf-stepper{display:inline-flex; align-items:center; border:1.5px solid var(--line); border-radius:12px; overflow:hidden; background:var(--white);}
+  .gaf-stepbtn{font-family:inherit; width:44px; height:44px; font-size:23px; font-weight:700; color:var(--deep);
+    background:var(--white); border:none; cursor:pointer; line-height:1; transition:background .15s ease, color .15s ease;}
+  .gaf-stepbtn:hover{background:var(--soft); color:var(--teal);}
+  .gaf-stepbtn:disabled{opacity:.3; cursor:not-allowed;}
+  .gaf-stepbtn:focus-visible{outline:3px solid var(--teal); outline-offset:-3px;}
+  .gaf-stepval{font-family:inherit; width:56px; height:44px; text-align:center; font-size:21px; font-weight:700;
+    color:var(--deep); border:none; border-left:1.5px solid var(--line); border-right:1.5px solid var(--line);
+    background:var(--white); -moz-appearance:textfield; appearance:textfield;}
+  .gaf-stepval:focus{outline:none; background:var(--soft);}
+  .gaf-stepval::-webkit-outer-spin-button,
+  .gaf-stepval::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+  .gaf-qtynote{padding-top:13px; text-align:center; font-size:13.5px; color:var(--ink); opacity:.85; line-height:1.5;}
+  .gaf-qtynote strong{color:var(--deep); opacity:1;}
+
   .gaf-cart{margin-top:14px; width:100%; display:inline-flex; align-items:center; justify-content:center; gap:9px;
-    font-family:inherit; font-size:19px; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
-    color:#fff; background:var(--teal); border:none; border-radius:12px; padding:17px; cursor:pointer; text-decoration:none;
+    font-family:inherit; font-size:18px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+    color:#fff; background:var(--teal); border:none; border-radius:12px; padding:16px; cursor:pointer; text-decoration:none;
     transition:background .15s ease;}
   .gaf-cart:hover{background:var(--deep);}
   .gaf-cart:focus-visible{outline:3px solid var(--deep); outline-offset:2px;}
 
-  .gaf-orient{margin-top:18px; display:flex; gap:16px; align-items:center; padding:16px 20px;
-    background:var(--soft); border:1px solid var(--line); border-radius:14px; font-size:15px; color:var(--ink); line-height:1.6;}
-  .gaf-orient svg{flex:0 0 64px; width:64px; height:64px;}
+  /* START OVER */
+  .gaf-reset-wrap{text-align:center; padding-top:18px;}
+  .gaf-reset{font-family:inherit; font-size:14px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--deep); background:none; border:1.5px solid var(--line);
+    border-radius:10px; padding:10px 20px; cursor:pointer; transition:all .15s ease;}
+  .gaf-reset:hover{border-color:var(--teal); color:var(--teal); background:var(--soft);}
+  .gaf-reset:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
 
+  /* RESPONSIVE */
+  @media (max-width:980px){
+    .gaf-type-icon,.gaf-type-icon svg{width:40px; height:40px;}
+    .gaf-type{padding:12px 5px 9px;}
+    .gaf-type-t{font-size:11px;}
+  }
+  @media (max-width:860px){
+    .gaf-layout{flex-direction:column; gap:20px;}
+    .gaf-left,.gaf-right{flex:1 1 auto; max-width:100%; width:100%;}
+    .gaf-right{position:static; order:-1;}
+    .gaf-stage{min-height:230px;}
+    .gaf-stage svg{max-width:320px;}
+    .gaf-type-icon,.gaf-type-icon svg{width:46px; height:46px;}
+    .gaf-type-t{font-size:12px;}
+  }
   @media (max-width:660px){
-    .gaf-title{font-size:28px;}
+    .gaf-title{font-size:27px;}
     .gaf-types{grid-template-columns:repeat(3,1fr);}
     .gaf-installs{grid-template-columns:1fr;}
-    .gaf-typepanel{flex-direction:column; text-align:center;}
-    .gaf-typeimg{flex:none;}
-    .gaf-install{flex-direction:column; text-align:center; padding-top:34px;}
+    .gaf-install{flex-direction:column; text-align:center; padding-top:32px;}
     .gaf-install.is-recommended .gaf-install-t{padding-right:0;}
   }
   @media (max-width:420px){
     .gaf-types{grid-template-columns:1fr 1fr;}
   }
   @media (prefers-reduced-motion:reduce){ #ga-finder *{transition:none !important;} }
-
-  /* Re-check highlight + reminder */
-  .gaf-field input.gaf-recheck{
-    background:#fbeaea;
-    border-color:var(--red);
-  }
-  .gaf-recheck-msg{
-    margin-top:12px;
-    padding:13px 16px;
-    background:#fbeaea;
-    border:1px solid var(--red);
-    border-radius:10px;
-    font-size:14px;
-    color:#8a2b2b;
-    line-height:1.55;
-  }
-  .gaf-recheck-msg strong{color:#8a2b2b;}
-
-  /* ORDER QUANTITY STEPPER */
-  .gaf-qtyrow{margin-top:24px; display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;}
-  .gaf-qtylabel{font-size:15px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep);}
-  .gaf-stepper{display:inline-flex; align-items:center; border:1.5px solid var(--line); border-radius:12px; overflow:hidden; background:var(--white);}
-  .gaf-stepbtn{font-family:inherit; width:46px; height:46px; font-size:24px; font-weight:700; color:var(--deep);
-    background:var(--white); border:none; cursor:pointer; line-height:1; transition:background .15s ease, color .15s ease;}
-  .gaf-stepbtn:hover{background:var(--soft); color:var(--teal);}
-  .gaf-stepbtn:disabled{opacity:.3; cursor:not-allowed;}
-  .gaf-stepbtn:focus-visible{outline:3px solid var(--teal); outline-offset:-3px;}
-  .gaf-stepval{font-family:inherit; width:58px; height:46px; text-align:center; font-size:22px; font-weight:700;
-    color:var(--deep); border:none; border-left:1.5px solid var(--line); border-right:1.5px solid var(--line);
-    background:var(--white); -moz-appearance:textfield; appearance:textfield;}
-  .gaf-stepval:focus{outline:none; background:var(--soft);}
-  .gaf-stepval::-webkit-outer-spin-button,
-  .gaf-stepval::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
-  .gaf-qtynote{padding-top:14px; text-align:center; font-size:14px; color:var(--ink); opacity:.85; line-height:1.5;}
-  .gaf-qtynote strong{color:var(--deep); opacity:1;}
-  
-  /* START OVER */
-  .gaf-reset-wrap{text-align:center; padding-top:18px;}
-  .gaf-reset{font-family:inherit; font-size:15px; font-weight:700; text-transform:uppercase;
-    letter-spacing:.06em; color:var(--deep); background:none; border:1.5px solid var(--line);
-    border-radius:10px; padding:11px 22px; cursor:pointer; transition:all .15s ease;}
-  .gaf-reset:hover{border-color:var(--teal); color:var(--teal); background:var(--soft);}
-  .gaf-reset:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
-   
-  /* RESULT VISUALIZATION */
-  .gaf-resultviz{margin-top:20px; padding:20px 22px 18px; background:var(--soft);
-    border:1px solid var(--line); border-radius:14px;}
-  .gaf-resultviz-cap{font-size:14px; color:var(--ink); opacity:.9; margin:0 0 12px;
-    line-height:1.5; text-align:center;}
-  .gaf-resultviz-cap strong{color:var(--deep); opacity:1;}
-  .gaf-resultviz svg{display:block; height:auto; margin:0 auto;}
 </style>
 
 <script>
@@ -328,7 +329,7 @@
 
   const SHOP = "https://gaguards.com";
 
-  /* ---- LENGTH -> MODEL FAMILY (first match wins on overlaps) ---- */
+  /* ---- LONG SIDE -> MODEL FAMILY ---- */
   const FAMILIES = [
     {m:"1417", min:14,  max:17 },
     {m:"1723", min:17,  max:23 },
@@ -338,7 +339,7 @@
     {m:"7320", min:73,  max:120}
   ];
 
-  /* ---- OPENING -> BAR COMBINATION ---- */
+  /* ---- COVER SIDE -> BAR COMBINATION ---- */
   const TIERS = [
     [13,    17.25,  ["3"]],
     [17.25, 21.625, ["4"]],
@@ -370,14 +371,6 @@
     "casement":     { label:"Casement",      desc:"The window swings outward like a door and is usually opened with a crank." }
   };
 
-  /* ---- INSTALL ORIENTATION ---- */
-  const ORIENT = {
-    "horizontal":{ label:"Horizontal", lenDim:"width", openDim:"height",
-      note:"The guard runs <strong>side-to-side</strong>. Use the window area&rsquo;s <strong>width</strong> and <strong>height</strong> exactly as shown in the diagram.", img:"" },
-    "vertical":  { label:"Vertical",   lenDim:"height", openDim:"width",
-      note:"The guard runs <strong>top-to-bottom</strong>. Use the window area&rsquo;s <strong>width</strong> and <strong>height</strong> exactly as shown in the diagram.", img:"" }
-  };
-
   /* ================================================================
      SVG DRAWING HELPERS
   ================================================================ */
@@ -397,182 +390,55 @@
     return '<text x="'+x+'" y="'+y+'"'+t+' fill="'+c+'" font-family="Rajdhani,sans-serif" font-size="12" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+s+'</text>';
   }
 
-  /* ---- COMBINED DIAGRAM: window type + install direction ---- */
-  function diagram(winType, orient){
-    var D="#003D4C", O="#009CA6", BAR="#9fb4b7", GLASS="#e8f4f5", FRAME="#003D4C";
-    var fx=68, fy=48, fw=152, fh=106;
-    var cx=fx+fw/2, cy=fy+fh/2;
-    var isHoriz = (orient==="horizontal");
-
-    /* Window frame — shape changes by type */
-    var frame="", labels="";
-    if(winType==="double-hung" || winType==="single-hung"){
-      /* two panes stacked vertically */
-      var midY = fy + fh/2;
-      frame  = '<rect x="'+fx+'" y="'+fy+'" width="'+fw+'" height="'+fh+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
-      frame += '<line x1="'+fx+'" y1="'+midY+'" x2="'+(fx+fw)+'" y2="'+midY+'" stroke="'+FRAME+'" stroke-width="2"/>';
-      /* for single-hung shade top pane to show it's fixed */
-      if(winType==="single-hung"){
-        frame += '<rect x="'+(fx+2)+'" y="'+(fy+2)+'" width="'+(fw-4)+'" height="'+(fh/2-3)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
-        const pillW = 50;
-        const pillH = 18;
-        const pillX = cx - pillW/2;
-        const pillY = fy + fh/4 - pillH/2 + 2;
-
-        labels += '<rect x="'+pillX+'" y="'+pillY+'" width="'+pillW+'" height="'+pillH+'" rx="9" fill="rgba(0,61,76,0.75)"/>';
-        labels += '<text x="'+cx+'" y="'+(pillY+12.5)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
-      }
-    } else if(winType==="single-slider" || winType==="double-slider"){
-      /* two panes side by side */
-      var midX = fx + fw/2;
-      frame  = '<rect x="'+fx+'" y="'+fy+'" width="'+fw+'" height="'+fh+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
-      frame += '<line x1="'+midX+'" y1="'+fy+'" x2="'+midX+'" y2="'+(fy+fh)+'" stroke="'+FRAME+'" stroke-width="2"/>';
-      if(winType==="single-slider"){
-        frame += '<rect x="'+(midX+2)+'" y="'+(fy+2)+'" width="'+(fw/2-4)+'" height="'+(fh-4)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
-        const pillCX = midX + fw/4;
-        const pillCY = cy;
-
-        labels += '<rect x="'+(pillCX-25)+'" y="'+(pillCY-9)+'" width="50" height="18" rx="9" fill="rgba(0,61,76,0.75)"/>';
-        labels += '<text x="'+pillCX+'" y="'+(pillCY+3.5)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
-      }
-    } else {
-      /* casement — double casement window */
-
-      var midX = fx + fw/2;
-
-      /* outer frame */
-      frame  = '<rect x="'+fx+'" y="'+fy+'" width="'+fw+'" height="'+fh+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
-
-      /* center divider */
-      frame += '<line x1="'+midX+'" y1="'+fy+'" x2="'+midX+'" y2="'+(fy+fh)+'" stroke="'+FRAME+'" stroke-width="2"/>';
-
-      /* left & right sash outlines */
-      frame += '<rect x="'+(fx+6)+'" y="'+(fy+6)+'" width="'+(fw/2-12)+'" height="'+(fh-12)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
-      frame += '<rect x="'+(midX+6)+'" y="'+(fy+6)+'" width="'+(fw/2-12)+'" height="'+(fh-12)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
-
-      /* hinge dots in center between the two panes */
-      frame += '<circle cx="'+(midX-4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/>';
-      frame += '<circle cx="'+(midX+4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/>';
-
-      /* left opening triangle */
-      frame += '<path d="M'+midX+' '+(fy+8)+
-              ' L'+(fx+18)+' '+cy+
-              ' L'+midX+' '+(fy+fh-8)+
-              '" fill="none" stroke="'+O+
-              '" stroke-width="1.5" stroke-dasharray="4 3"/>';
-
-      /* right opening triangle */
-      frame += '<path d="M'+midX+' '+(fy+8)+
-              ' L'+(fx+fw-18)+' '+cy+
-              ' L'+midX+' '+(fy+fh-8)+
-              '" fill="none" stroke="'+O+
-              '" stroke-width="1.5" stroke-dasharray="4 3"/>';
-    }
-    /* Bars + end posts — drawn over the glass, direction matches install */
-    var bars="", posts="";
-    var POST="#82979a";  // same family as the bars, just a tad darker
-    var ext=8;           // how far the posts run past the outer bars
-    if(isHoriz){
-      /* horizontal install → bars run L→R (horizontal bars) */
-      var hx1=fx+10, hx2=fx+fw-10;
-      var firstBy=fy+fh*1/5, lastBy=fy+fh*4/5;
-      for(var i=1;i<=4;i++){
-        var by=fy+fh*i/5;
-        bars+='<line x1="'+hx1+'" y1="'+by+'" x2="'+hx2+'" y2="'+by+'" stroke="'+BAR+'" stroke-width="3.5" stroke-linecap="round"/>';
-      }
-      /* end posts: vertical, connecting the bars at each end (extended past outer bars) */
-      posts+='<line x1="'+hx1+'" y1="'+(firstBy-ext)+'" x2="'+hx1+'" y2="'+(lastBy+ext)+'" stroke="'+POST+'" stroke-width="5" stroke-linecap="round"/>';
-      posts+='<line x1="'+hx2+'" y1="'+(firstBy-ext)+'" x2="'+hx2+'" y2="'+(lastBy+ext)+'" stroke="'+POST+'" stroke-width="5" stroke-linecap="round"/>';
-    } else {
-      /* vertical install → bars run top→bottom (vertical bars) */
-      var vy1=fy+10, vy2=fy+fh-10;
-      var firstBx=fx+fw*1/5, lastBx=fx+fw*4/5;
-      for(var j=1;j<=4;j++){
-        var bx=fx+fw*j/5;
-        bars+='<line x1="'+bx+'" y1="'+vy1+'" x2="'+bx+'" y2="'+vy2+'" stroke="'+BAR+'" stroke-width="3.5" stroke-linecap="round"/>';
-      }
-      /* end posts: horizontal, connecting the bars at each end (extended past outer bars) */
-      posts+='<line x1="'+(firstBx-ext)+'" y1="'+vy1+'" x2="'+(lastBx+ext)+'" y2="'+vy1+'" stroke="'+POST+'" stroke-width="5" stroke-linecap="round"/>';
-      posts+='<line x1="'+(firstBx-ext)+'" y1="'+vy2+'" x2="'+(lastBx+ext)+'" y2="'+vy2+'" stroke="'+POST+'" stroke-width="5" stroke-linecap="round"/>';
-    }
-
-    /* Dimension arrows */
-    var wColor = "#6B3FA0";
-    var hColor = "#F2B705";
-    var wText  = "WIDTH";
-    var hText  = "HEIGHT";
-
-    /* Opening arrows only span the non-fixed pane in the two special cases:
-       1. Single Hung plus Horizontal install: Opening is only the lower operable sash height.
-       2. Single Slider plus Vertical install: Opening is only the left operable sash width. */
-    var wA = fx, wB = fx + fw;
-    var hA = fy, hB = fy + fh;
-    if(winType === "single-slider" && !isHoriz){ wB = fx + fw/2; }
-    if(winType === "single-hung" && isHoriz){ hA = fy + fh/2; }
-
-    var bottomY = fy + fh + 22;
-    var leftX = 44;
-    var dims =
-        dash(wA,bottomY,wA,fy+fh)+dash(wB,bottomY,wB,fy+fh)+hArrow(wA,wB,bottomY,wColor)+txt((wA+wB)/2,bottomY+18,wColor,wText,false)
-      + dash(leftX,hA,fx,hA)+dash(leftX,hB,fx,hB)+vArrow(hA,hB,leftX,hColor)+txt(22,(hA+hB)/2,hColor,hText,true);
-
-    return '<svg viewBox="0 0 288 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="window measurement guide">'
-            +'<g class="window">'+frame+'</g>'
-            +'<g class="bars">'+bars+'</g>'
-            +'<g class="posts">'+posts+'</g>'
-            +'<g class="labels">'+labels+'</g>'
-            +dims
-            +'</svg>';
+  /* ---- one guard "section": bars + two end posts ---- */
+  function guardSectionH(x,y,w,h,bars,D,O){
+    var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="rgba(0,156,166,0.07)"/>';
+    for(var k=1;k<=bars;k++){ var by=y+h*k/(bars+1);
+      s+='<line x1="'+x+'" y1="'+by+'" x2="'+(x+w)+'" y2="'+by+'" stroke="'+O+'" stroke-width="3" stroke-linecap="round" opacity="0.92"/>'; }
+    s+='<line x1="'+x+'" y1="'+y+'" x2="'+x+'" y2="'+(y+h)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
+    s+='<line x1="'+(x+w)+'" y1="'+y+'" x2="'+(x+w)+'" y2="'+(y+h)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
+    return s;
+  }
+  function guardSectionV(x,y,w,h,bars,D,O){
+    var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="rgba(0,156,166,0.07)"/>';
+    for(var k=1;k<=bars;k++){ var bx=x+w*k/(bars+1);
+      s+='<line x1="'+bx+'" y1="'+y+'" x2="'+bx+'" y2="'+(y+h)+'" stroke="'+O+'" stroke-width="3" stroke-linecap="round" opacity="0.92"/>'; }
+    s+='<line x1="'+x+'" y1="'+y+'" x2="'+(x+w)+'" y2="'+y+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
+    s+='<line x1="'+x+'" y1="'+(y+h)+'" x2="'+(x+w)+'" y2="'+(y+h)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
+    return s;
   }
 
-  /* ---- WINDOW TYPE ICON (thumbnail for the picker) ---- */
+  /* ---- WINDOW TYPE ICON (picker thumbnail) ---- */
   function typeIcon(t){
     var D="#003D4C", G="#e8f4f5";
     var base='<rect x="4" y="4" width="44" height="44" rx="3" fill="'+G+'" stroke="'+D+'" stroke-width="2"/>';
     var inner="";
     if(t==="double-hung"||t==="single-hung"){
       inner='<line x1="4" y1="26" x2="48" y2="26" stroke="'+D+'" stroke-width="1.5"/>';
-      if(t==="single-hung"){ 
+      if(t==="single-hung"){
         inner+='<rect x="5" y="5" width="42" height="20" fill="rgba(0,61,76,0.3)"/>';
         inner+='<rect x="10" y="8.1" width="32" height="14" rx="7" fill="rgba(0,61,76,0.75)"/>';
         inner+='<text x="26" y="18" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="9.5" font-weight="800" text-anchor="middle">FIXED</text>';
       }
     } else if(t==="single-slider"||t==="double-slider"){
       inner='<line x1="26" y1="4" x2="26" y2="48" stroke="'+D+'" stroke-width="1.5"/>';
-      if (t === "single-slider") {
-        inner += '<rect x="27" y="5" width="20" height="42" fill="rgba(0,61,76,0.3)"/>';
-
-        inner += `
-          <g transform="rotate(90 37 29)">
-            <rect x="18" y="22" width="32" height="14" rx="7" fill="rgba(0,61,76,0.75)"/>
-            <text x="34" y="32" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="9.5" font-weight="800" text-anchor="middle">
-              FIXED
-            </text>
-          </g>
-        `;
+      if(t==="single-slider"){
+        inner+='<rect x="27" y="5" width="20" height="42" fill="rgba(0,61,76,0.3)"/>';
+        inner+='<g transform="rotate(90 37 29)"><rect x="18" y="22" width="32" height="14" rx="7" fill="rgba(0,61,76,0.75)"/>'
+          +'<text x="34" y="32" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="9.5" font-weight="800" text-anchor="middle">FIXED</text></g>';
       }
     } else {
-      /* double casement */
-
-      /* center divider */
       inner = '<line x1="26" y1="4" x2="26" y2="48" stroke="'+D+'" stroke-width="1.5"/>';
-
-      /* sash outlines */
       inner += '<rect x="7" y="7" width="17" height="38" fill="none" stroke="'+D+'" stroke-width="0.8"/>';
       inner += '<rect x="28" y="7" width="17" height="38" fill="none" stroke="'+D+'" stroke-width="0.8"/>';
-
-      /* center hinge dots */
-      inner += '<circle cx="23" cy="26" r="1.5" fill="'+D+'"/>';
-      inner += '<circle cx="29" cy="26" r="1.5" fill="'+D+'"/>';
-
-      /* opening triangles */
+      inner += '<circle cx="23" cy="26" r="1.5" fill="'+D+'"/><circle cx="29" cy="26" r="1.5" fill="'+D+'"/>';
       inner += '<path d="M26 8 L12 26 L26 44" fill="none" stroke="#009CA6" stroke-width="1.2" stroke-dasharray="2 1"/>';
       inner += '<path d="M26 8 L40 26 L26 44" fill="none" stroke="#009CA6" stroke-width="1.2" stroke-dasharray="2 1"/>';
     }
     return '<svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+base+inner+'</svg>';
   }
 
-  /* ---- INSTALL DIRECTION ICON (for the direction picker) ---- */
+  /* ---- INSTALL DIRECTION ICON ---- */
   function orientIcon(install){
     var D="#003D4C", T="#009CA6";
     var frame='<rect x="8" y="8" width="48" height="48" rx="3" fill="#fff" stroke="'+D+'" stroke-width="2.5"/>';
@@ -591,6 +457,166 @@
     for(var i=0;i<TIERS.length;i++){ if(o<=TIERS[i][1]) return TIERS[i]; }
     return null;
   }
+  function trim(n){ return (Math.round(n*1000)/1000).toString(); }
+
+  /* ================================================================
+     LIVE PREVIEW — one renderer for every stage
+       stage 1: window only (no install yet)
+       stage 2: window + a single representative guard + labeled arrows
+       stage 3: window resizes as measurements are typed
+       stage 4 (both valid): real stacked guards + model tag
+  ================================================================ */
+  function placeholderSVG(){
+    return '<svg viewBox="0 0 300 235" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+      +'<rect x="78" y="28" width="144" height="150" rx="8" fill="#f3f8f8" stroke="#cbdadc" stroke-width="2" stroke-dasharray="7 7"/>'
+      +'<line x1="150" y1="28" x2="150" y2="178" stroke="#cbdadc" stroke-width="1.5" stroke-dasharray="5 5"/>'
+      +'<line x1="78" y1="103" x2="222" y2="103" stroke="#cbdadc" stroke-width="1.5" stroke-dasharray="5 5"/>'
+      +'<text x="150" y="218" fill="#7d9396" font-family="Rajdhani,sans-serif" font-size="14" font-weight="700" letter-spacing="0.7" text-anchor="middle">YOUR WINDOW BUILDS HERE</text>'
+      +'</svg>';
+  }
+
+  function previewSVG(winType, install, widthIn, heightIn){
+    var D="#003D4C", O="#009CA6", GLASS="#e8f4f5", FRAME="#003D4C";
+    var WID="#6B3FA0", HEI="#008000";
+    var SECH={"3":13,"4":17.375,"5":21.75};
+
+    var hasW = !isNaN(widthIn)  && widthIn>0;
+    var hasH = !isNaN(heightIn) && heightIn>0;
+    var DEF_W=30, DEF_H=34;
+    var wIn = hasW ? widthIn : DEF_W;
+    var hIn = hasH ? heightIn : DEF_H;
+
+    var hasInstall = !!install;
+    var isHoriz = install==="horizontal";
+    var isSH = winType==="single-hung";
+    var isSS = winType==="single-slider";
+    /* guards skip the fixed pane only in these two combinations */
+    var carve = hasInstall ? ((isSH && isHoriz) || (isSS && !isHoriz)) : false;
+
+    /* operable (measured) area + an equal "fixed" pane drawn for the carve cases */
+    var opWin=wIn, opHin=hIn, FIXFRAC=1.0;
+    var fixWin = (carve && isSS) ? opWin*FIXFRAC : 0;
+    var fixHin = (carve && isSH) ? opHin*FIXFRAC : 0;
+    var totWin = opWin+fixWin, totHin = opHin+fixHin;
+
+    var maxW=340, maxH=294;
+    var scale=Math.min(maxW/totWin, maxH/totHin);
+    var W=totWin*scale, H=totHin*scale;
+    var ow=opWin*scale, oh=opHin*scale, fw=fixWin*scale, fh=fixHin*scale;
+
+    /* what to show */
+    var len  = hasInstall ? (isHoriz ? wIn : hIn) : null;
+    var open = hasInstall ? (isHoriz ? hIn : wIn) : null;
+    var realGuards = hasInstall && hasW && hasH && len>=LEN_MIN && len<=LEN_MAX && open<=OPEN_MAX;
+    var showGuards = hasInstall;
+    var showArrows = hasInstall;
+    var showTag    = realGuards;
+
+    var mL=56, mR=22, mT=22, mB = showTag?78 : (showArrows?42:24);
+    var CW=Math.max(W+mL+mR, 280);
+    var CH=H+mT+mB;
+    var wx=mL+(CW-mL-mR-W)/2, wy=mT;
+    var cx=wx+W/2, cy=wy+H/2;
+
+    /* operable rect (where guards live) */
+    var ox=wx, oy=wy;
+    if(carve && isSH){ oy=wy+fh; }   /* fixed on top -> operable below */
+
+    var svg='<rect x="'+wx+'" y="'+wy+'" width="'+W+'" height="'+H+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
+    var pills="";
+
+    /* window-type art (drawn under guards); FIXED pane always shown for SH/SS */
+    if(isSH){
+      var divY = carve ? oy : (wy+H/2);
+      var fHt  = carve ? fh : H/2;
+      svg+='<rect x="'+(wx+2)+'" y="'+(wy+2)+'" width="'+(W-4)+'" height="'+(fHt-3)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
+      svg+='<line x1="'+wx+'" y1="'+divY+'" x2="'+(wx+W)+'" y2="'+divY+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      var pyc=wy+fHt/2, pw=Math.min(50,W-8);
+      pills+='<rect x="'+(cx-pw/2)+'" y="'+(pyc-9)+'" width="'+pw+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
+      pills+='<text x="'+cx+'" y="'+(pyc+3.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
+    } else if(winType==="double-hung"){
+      svg+='<line x1="'+wx+'" y1="'+cy+'" x2="'+(wx+W)+'" y2="'+cy+'" stroke="'+FRAME+'" stroke-width="2"/>';
+    } else if(isSS){
+      var divX = carve ? (ox+ow) : (wx+W/2);
+      var fWd  = carve ? fw : W/2;
+      svg+='<rect x="'+(divX+2)+'" y="'+(wy+2)+'" width="'+(fWd-4)+'" height="'+(H-4)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
+      svg+='<line x1="'+divX+'" y1="'+wy+'" x2="'+divX+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      var pcx=divX+fWd/2, pw2=Math.min(50,fWd-8);
+      pills+='<rect x="'+(pcx-pw2/2)+'" y="'+(cy-9)+'" width="'+pw2+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
+      pills+='<text x="'+pcx+'" y="'+(cy+3.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
+    } else if(winType==="double-slider"){
+      svg+='<line x1="'+cx+'" y1="'+wy+'" x2="'+cx+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
+    } else { /* casement */
+      svg+='<line x1="'+cx+'" y1="'+wy+'" x2="'+cx+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
+      var ix=Math.max(4,W*0.04), iy=Math.max(4,H*0.055);
+      svg+='<rect x="'+(wx+ix)+'" y="'+(wy+iy)+'" width="'+(W/2-2*ix)+'" height="'+(H-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
+      svg+='<rect x="'+(cx+ix)+'" y="'+(wy+iy)+'" width="'+(W/2-2*ix)+'" height="'+(H-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
+      svg+='<circle cx="'+(cx-4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/><circle cx="'+(cx+4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/>';
+      var tx=Math.max(8,W*0.12), ty=Math.max(6,H*0.075);
+      svg+='<path d="M'+cx+' '+(wy+ty)+' L'+(wx+tx)+' '+cy+' L'+cx+' '+(wy+H-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
+      svg+='<path d="M'+cx+' '+(wy+ty)+' L'+(wx+W-tx)+' '+cy+' L'+cx+' '+(wy+H-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
+    }
+
+    /* guards inside the operable area */
+    if(showGuards){
+      var gpad=7;
+      var gx=ox+gpad, gy=oy+gpad, gw=ow-2*gpad, gh=oh-2*gpad;
+      if(realGuards){
+        var tier=findTier(open);
+        var secs=(tier&&tier[2])?tier[2]:["3"];
+        var nSec=secs.length, totalWt=0;
+        secs.forEach(function(sz){ totalWt+=(SECH[sz]||13); });
+        var off=0, si, bc;
+        if(isHoriz){
+          var gapH=nSec>1?Math.max(6,gh*0.05):0, availH=gh-gapH*(nSec-1);
+          for(si=0;si<nSec;si++){ bc=parseInt(secs[si],10);
+            var segH=availH*(SECH[secs[si]]||13)/totalWt;
+            svg+=guardSectionH(gx,gy+off,gw,segH,bc,D,O); off+=segH+gapH; }
+        } else {
+          var gapW=nSec>1?Math.max(6,gw*0.05):0, availW=gw-gapW*(nSec-1);
+          for(si=0;si<nSec;si++){ bc=parseInt(secs[si],10);
+            var segW=availW*(SECH[secs[si]]||13)/totalWt;
+            svg+=guardSectionV(gx+off,gy,segW,gh,bc,D,O); off+=segW+gapW; }
+        }
+      } else {
+        /* one representative guard covering the space */
+        if(isHoriz){ svg+=guardSectionH(gx,gy,gw,gh,4,D,O); }
+        else        { svg+=guardSectionV(gx,gy,gw,gh,4,D,O); }
+      }
+    }
+
+    /* FIXED pills on top of guards */
+    svg+=pills;
+
+    /* dimension arrows (purple width, gold height — matches the labels in Step 2) */
+    if(showArrows){
+      var wA=(carve && isSS)?ox:wx,  wB=(carve && isSS)?(ox+ow):(wx+W);
+      var hA=(carve && isSH)?oy:wy,  hB=(carve && isSH)?(oy+oh):(wy+H);
+      var topLabel  = hasW ? (trim(widthIn)+'\u2033 WIDTH')  : 'WIDTH';
+      var leftLabel = hasH ? (trim(heightIn)+'\u2033 HEIGHT') : 'HEIGHT';
+      var bottomY=wy+H+18;
+      svg+=dash(wA,bottomY,wA,wy+H)+dash(wB,bottomY,wB,wy+H)+hArrow(wA,wB,bottomY,WID)+txt((wA+wB)/2,bottomY+15,WID,topLabel,false);
+      var leftX=wx-26;
+      svg+=dash(leftX,hA,wx,hA)+dash(leftX,hB,wx,hB)+vArrow(hA,hB,leftX,HEI)+txt(leftX-9,(hA+hB)/2,HEI,leftLabel,true);
+    }
+
+    /* model tag (only when guards are real) */
+    if(showTag){
+      var fam=findFamily(len);
+      var tier2=findTier(open);
+      var secs2=(tier2&&tier2[2])?tier2[2]:["3"];
+      var counts={}; secs2.forEach(function(sz){ counts[sz]=(counts[sz]||0)+1; });
+      var sizes=Object.keys(counts).sort(), total=secs2.length;
+      var items=sizes.map(function(sz){ return fam.m+"-"+sz+" \u00d7"+counts[sz]; });
+      var tagText="Model "+items.join("  +  ")+(total>1?"  (stacked)":"");
+      var pillW=Math.min(CW-16, tagText.length*6.6+30);
+      var pillX=(CW-pillW)/2, tagY=wy+H+44;
+      svg+='<rect x="'+pillX+'" y="'+tagY+'" width="'+pillW+'" height="24" rx="12" fill="'+D+'"/>'
+          +'<text x="'+(CW/2)+'" y="'+(tagY+16)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tagText+'</text>';
+    }
+
+    return '<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Window guard preview">'+svg+'</svg>';
+  }
 
   /* ================================================================
      STATE
@@ -599,100 +625,113 @@
   var install = null;
   var $ = function(id){ return document.getElementById(id); };
 
-  /* ---- Render type icons immediately ---- */
-  Object.keys(TYPES).forEach(function(t){
-    var el = $("icon-"+t);
-    if(el) el.innerHTML = typeIcon(t);
-  });
+  /* render picker icons */
+  Object.keys(TYPES).forEach(function(t){ var el=$("icon-"+t); if(el) el.innerHTML=typeIcon(t); });
   $("icon-horiz").innerHTML = orientIcon("horizontal");
   $("icon-vert").innerHTML  = orientIcon("vertical");
 
   function recommendedInstallForType(type){
-    if(type === "single-hung" || type === "double-hung") return "horizontal";
-    if(type === "single-slider" || type === "double-slider" || type === "casement") return "vertical";
+    if(type==="single-hung" || type==="double-hung") return "horizontal";
+    if(type==="single-slider" || type==="double-slider" || type==="casement") return "vertical";
     return null;
   }
-
   function updateInstallRecommendations(){
     var rec = recommendedInstallForType(winType);
     document.querySelectorAll(".gaf-install").forEach(function(b){
-      var isRec = rec && b.dataset.install === rec;
+      var isRec = rec && b.dataset.install===rec;
       b.classList.toggle("is-recommended", !!isRec);
-      if(isRec){
-        b.setAttribute("aria-label", b.dataset.install + " install, recommended for this window type");
-      } else {
-        b.removeAttribute("aria-label");
-      }
+      if(isRec){ b.setAttribute("aria-label", b.dataset.install+" install, recommended for this window type"); }
+      else { b.removeAttribute("aria-label"); }
     });
   }
 
-  /* ---- STEP 1: Window type selection ---- */
+  /* ---- THE LIVE PREVIEW DRIVER ---- */
+  function renderPreview(){
+    var stage=$("gaf-stage"), cap=$("gaf-stagecap");
+    if(!winType){
+      stage.innerHTML = placeholderSVG();
+      cap.innerHTML = "Your preview builds here as you make your selections.";
+      return;
+    }
+    var w=parseFloat($("gaf-len").value);
+    var h=parseFloat($("gaf-open").value);
+    stage.innerHTML = previewSVG(winType, install, w, h);
+
+    var tl = TYPES[winType] ? TYPES[winType].label : "window";
+    if(!install){
+      cap.innerHTML = "Your <strong>"+tl+"</strong> window. Now choose how the guard will be installed.";
+      return;
+    }
+    var hasW=!isNaN(w)&&w>0, hasH=!isNaN(h)&&h>0;
+    var len  = install==="horizontal"? w : h;
+    var open = install==="horizontal"? h : w;
+    var real = hasW&&hasH && len>=LEN_MIN && len<=LEN_MAX && open<=OPEN_MAX;
+    if(real){
+      var total=findTier(open)[2].length;
+      cap.innerHTML = "Your <strong>"+tl+"</strong> with a <strong>"+install+" install</strong> &mdash; "
+        + total+" guard"+(total>1?"s":"")+" for a <strong>"+trim(w)+"\u2033 \u00d7 "+trim(h)+"\u2033</strong> area.";
+    } else {
+      cap.innerHTML = "Your <strong>"+tl+"</strong> with a <strong>"+install+" install</strong>. Enter the height and width to size it and generate your guard solution.";
+    }
+  }
+
+  /* ---- STEP 1: window type ---- */
   $("gaf-types").addEventListener("click", function(e){
-    var btn = e.target.closest(".gaf-type"); if(!btn) return;
+    var btn=e.target.closest(".gaf-type"); if(!btn) return;
     winType = btn.dataset.type;
     document.querySelectorAll(".gaf-type").forEach(function(b){ b.setAttribute("aria-checked", String(b===btn)); });
     updateInstallRecommendations();
-
-    /* Reveal step 2 */
     $("gaf-step2").hidden = false;
-
-    $("gaf-reset").hidden = false;   // ← add this line
-
-    /* If direction already chosen, refresh diagram */
+    $("gaf-reset").hidden = false;
     if(install){ updateGuide(); }
+    renderPreview();
+    autoRun();
   });
 
-  /* ---- STEP 2: Install direction selection ---- */
+  /* ---- STEP 2: install direction ---- */
   $("gaf-installs").addEventListener("click", function(e){
-    var btn = e.target.closest(".gaf-install"); if(!btn) return;
-    var prevInstall = install;          // remember previous choice
+    var btn=e.target.closest(".gaf-install"); if(!btn) return;
+    var prevInstall = install;
     install = btn.dataset.install;
     document.querySelectorAll(".gaf-install").forEach(function(b){ b.setAttribute("aria-checked", String(b===btn)); });
-
-    /* Only nag if they actually SWITCHED from a prior selection */
-    if(prevInstall && prevInstall !== install){ showRecheck(); }
-
+    if(prevInstall && prevInstall!==install){ showRecheck(); }
     updateGuide();
-
-    /* Reveal step 3 */
     $("gaf-step3").hidden = false;
-
-    /* Height and width stay the same for the customer. Internally, the calculator maps them to the correct sizing dimensions. */
     $("gaf-lenhint").textContent  = "(side to side, in inches)";
     $("gaf-openhint").textContent = "(top to bottom, in inches)";
+    renderPreview();
+    autoRun();
   });
 
   function updateGuide(){
     if(!winType || !install) return;
-    var o = ORIENT[install];
-    var typeInfo = TYPES[winType];
+    var typeInfo=TYPES[winType];
     var runDir = install==="horizontal" ? "side-to-side" : "top-to-bottom";
-
-    $("gaf-typeimg").innerHTML = o.img
-      ? '<img src="'+o.img+'" alt="'+o.label+' install measurement guide">'
-      : diagram(winType, install);
-
-    var widthTip = install === "horizontal" ? "The bottom arrow shows the width to enter below." : "The bottom arrow shows the width of the area the guard needs to cover.";
-    var heightTip = install === "horizontal" ? "The side arrow shows the height of the area the guard needs to cover." : "The side arrow shows the height to enter below.";
-
     $("gaf-typenote").innerHTML =
         '<p class="gaf-note-eyebrow">Your Measuring Guide</p>'
       + '<p class="gaf-note-head">'+typeInfo.label+'</p>'
       + '<p class="gaf-note-desc">'+typeInfo.desc+'</p>'
-      + '<p class="gaf-note-sub">How to measure the window</p>'
-      + '<p class="gaf-note-run">The guard runs <strong>'+runDir+'</strong>.</p>'
+      + '<p class="gaf-note-sub">How to measure the window area</p>'
+      + '<p class="gaf-note-run">The guard runs <strong>'+runDir+'</strong>. Use the preview on the right as your guide.</p>'
       + '<ol class="gaf-note-steps">'
-      +   '<li><span class="gaf-height-em">Height:</span> measure top to bottom. '+heightTip+'</li>'
-      +   '<li><span class="gaf-width-em">Width:</span> measure side to side. '+widthTip+'</li>'
+      +   '<li><span class="gaf-height-em">Height:</span> measure top to bottom &mdash; the <span class="gaf-height-em">gold</span> arrow on the preview.</li>'
+      +   '<li><span class="gaf-width-em">Width:</span> measure side to side &mdash; the <span class="gaf-width-em">purple</span> arrow on the preview.</li>'
       + '</ol>';
-
-    $("gaf-typepanel").hidden = false;
+    $("gaf-guidebox").hidden = false;
   }
+  
+  /* ---- STEP 3: measurements auto-update results ---- */
+  $("gaf-len").addEventListener("input", function(){
+    clearRecheck();
+    renderPreview();
+    autoRun();
+  });
 
-  /* ---- STEP 3: Find guards ---- */
-  $("gaf-go").addEventListener("click", run);
-  $("gaf-len").addEventListener("keydown",  function(e){ if(e.key==="Enter") run(); });
-  $("gaf-open").addEventListener("keydown", function(e){ if(e.key==="Enter") run(); });
+  $("gaf-open").addEventListener("input", function(){
+    clearRecheck();
+    renderPreview();
+    autoRun();
+  });
 
   function msg(html, kind){ $("gaf-results").hidden=false; $("gaf-results").innerHTML='<div class="gaf-msg '+kind+'">'+html+'</div>'; }
 
@@ -708,48 +747,40 @@
   }
 
   function resetAll(){
-    /* clear state */
-    winType = null;
-    install = null;
-
-    /* deselect all pills */
+    winType = null; install = null;
     document.querySelectorAll(".gaf-type").forEach(function(b){ b.setAttribute("aria-checked","false"); });
     document.querySelectorAll(".gaf-install").forEach(function(b){
-      b.setAttribute("aria-checked","false");
-      b.classList.remove("is-recommended");
-      b.removeAttribute("aria-label");
+      b.setAttribute("aria-checked","false"); b.classList.remove("is-recommended"); b.removeAttribute("aria-label");
     });
-
-    /* clear inputs + highlight */
-    $("gaf-len").value = "";
-    $("gaf-open").value = "";
+    $("gaf-len").value=""; $("gaf-open").value="";
     clearRecheck();
-
-    /* hide steps 2 & 3, the guide panel, results, and this button */
-    $("gaf-step2").hidden = true;
-    $("gaf-step3").hidden = true;
-    $("gaf-typepanel").hidden = true;
-    $("gaf-typeimg").innerHTML = "";
-    $("gaf-typenote").innerHTML = "";
-    $("gaf-results").hidden = true;
-    $("gaf-results").innerHTML = "";
-    $("gaf-reset").hidden = true;
-
-    /* clear inputs + highlight */
-    $("gaf-len").value = "";
-    $("gaf-open").value = "";
-    clearRecheck();
-    $("gaf-recheck").hidden = true;   // ← ensure the Step 2 reminder is hidden
-    
-    /* scroll back to the top of the finder */
+    $("gaf-step2").hidden=true; $("gaf-step3").hidden=true;
+    $("gaf-guidebox").hidden=true; $("gaf-typenote").innerHTML="";
+    $("gaf-results").hidden=true; $("gaf-results").innerHTML="";
+    $("gaf-reset").hidden=true;
+    renderPreview();
     document.getElementById("ga-finder").scrollIntoView({behavior:"smooth", block:"start"});
   }
-
   $("gaf-reset").addEventListener("click", resetAll);
 
-  /* Typing in EITHER box clears the highlight + reminder */
-  $("gaf-len").addEventListener("input", clearRecheck);
-  $("gaf-open").addEventListener("input", clearRecheck);
+  function autoRun(){
+    if(!winType || !install){
+      $("gaf-results").hidden = true;
+      $("gaf-results").innerHTML = "";
+      return;
+    }
+
+    var width = parseFloat($("gaf-len").value);
+    var height = parseFloat($("gaf-open").value);
+
+    if(isNaN(width) || isNaN(height) || width <= 0 || height <= 0){
+      $("gaf-results").hidden = true;
+      $("gaf-results").innerHTML = "";
+      return;
+    }
+
+    run();
+  }
 
   function run(){
     var width  = parseFloat($("gaf-len").value);
@@ -758,14 +789,10 @@
     if(isNaN(width) || isNaN(height) || width<=0 || height<=0){
       return msg("Enter both the window height and width to see your guards.", "err");
     }
-
-    /* Internal sizing map:
-       Horizontal install uses width as length and height as opening.
-       Vertical install uses height as length and width as opening. */
-    var len  = install === "horizontal" ? width : height;
-    var open = install === "horizontal" ? height : width;
-    var longSideName = install === "horizontal" ? "width" : "height";
-    var coverSideName = install === "horizontal" ? "height" : "width";
+    var len  = install==="horizontal" ? width : height;
+    var open = install==="horizontal" ? height : width;
+    var longSideName  = install==="horizontal" ? "width" : "height";
+    var coverSideName = install==="horizontal" ? "height" : "width";
 
     if(len < LEN_MIN || len > LEN_MAX){
       return msg("For this install direction, the window "+longSideName+" must be from <strong>14&quot; to 120&quot;</strong>. Your "+longSideName+" is "+trim(len)+"&quot;. Please <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a> for a custom recommendation.", "err");
@@ -774,260 +801,55 @@
       return msg("For this install direction, the window "+coverSideName+" is larger than one stacked guard set can cover. Please <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a> and we&rsquo;ll help you combine guards.", "info");
     }
 
-    var fam  = findFamily(len);
-    var tier = findTier(open);
+    var fam=findFamily(len), tier=findTier(open);
     if(!fam || !tier) return msg("Something went off-script with those numbers. Please double-check the height and width, or <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a>.", "err");
 
-    var counts = {};
-    tier[2].forEach(function(sz){ counts[sz] = (counts[sz]||0)+1; });
-    var sizes = Object.keys(counts).sort();
-    var totalGuards = tier[2].length;
-
-    render(fam, sizes, counts, totalGuards, width, height);
+    var counts={}; tier[2].forEach(function(sz){ counts[sz]=(counts[sz]||0)+1; });
+    var sizes=Object.keys(counts).sort();
+    render(fam, sizes, counts, tier[2].length, width, height);
+    renderPreview();
   }
 
-  function trim(n){ return (Math.round(n*1000)/1000).toString(); }
-
-  /* ---- WINDOW SHAPE (same art as Step 2), scaled to any rect ----
-     Returns { frame } drawn UNDER the guards and { labels } (FIXED pills) drawn OVER them. */
-  function windowShape(winType, x, y, w, h){
-    var D="#003D4C", O="#009CA6", GLASS="#e8f4f5", FRAME="#003D4C";
-    var cx=x+w/2, cy=y+h/2;
-    var frame='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
-    var labels="";
-
-    if(winType==="double-hung"||winType==="single-hung"){
-      frame+='<line x1="'+x+'" y1="'+cy+'" x2="'+(x+w)+'" y2="'+cy+'" stroke="'+FRAME+'" stroke-width="2"/>';
-      if(winType==="single-hung"){
-        frame+='<rect x="'+(x+2)+'" y="'+(y+2)+'" width="'+(w-4)+'" height="'+(h/2-3)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
-        var pw=Math.min(50,w-8), px=cx-pw/2, py=y+h/4-9;
-        labels+='<rect x="'+px+'" y="'+py+'" width="'+pw+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
-        labels+='<text x="'+cx+'" y="'+(py+12.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
-      }
-    } else if(winType==="single-slider"||winType==="double-slider"){
-      frame+='<line x1="'+cx+'" y1="'+y+'" x2="'+cx+'" y2="'+(y+h)+'" stroke="'+FRAME+'" stroke-width="2"/>';
-      if(winType==="single-slider"){
-        frame+='<rect x="'+(cx+2)+'" y="'+(y+2)+'" width="'+(w/2-4)+'" height="'+(h-4)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
-        var pcx=cx+w/4, pw2=Math.min(50,w/2-8);
-        labels+='<rect x="'+(pcx-pw2/2)+'" y="'+(cy-9)+'" width="'+pw2+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
-        labels+='<text x="'+pcx+'" y="'+(cy+3.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
-      }
-    } else {
-      /* casement */
-      frame+='<line x1="'+cx+'" y1="'+y+'" x2="'+cx+'" y2="'+(y+h)+'" stroke="'+FRAME+'" stroke-width="2"/>';
-      var ix=Math.max(4,w*0.04), iy=Math.max(4,h*0.055);
-      frame+='<rect x="'+(x+ix)+'" y="'+(y+iy)+'" width="'+(w/2-2*ix)+'" height="'+(h-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
-      frame+='<rect x="'+(cx+ix)+'" y="'+(y+iy)+'" width="'+(w/2-2*ix)+'" height="'+(h-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
-      frame+='<circle cx="'+(cx-4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/><circle cx="'+(cx+4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/>';
-      var tx=Math.max(8,w*0.12), ty=Math.max(6,h*0.075);
-      frame+='<path d="M'+cx+' '+(y+ty)+' L'+(x+tx)+' '+cy+' L'+cx+' '+(y+h-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
-      frame+='<path d="M'+cx+' '+(y+ty)+' L'+(x+w-tx)+' '+cy+' L'+cx+' '+(y+h-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
-    }
-    return {frame:frame, labels:labels};
-  }
-
-  /* ---- RESULT DIAGRAM: to-scale window; fixed pane always shown for SH/SS ---- */
-  function resultDiagram(winType, install, lenVal, openVal, sizes, counts, total, famM){
-    var D="#003D4C", O="#009CA6", GLASS="#e8f4f5", FRAME="#003D4C";
-    var SECH={"3":13,"4":17.375,"5":21.75};
-    var isHoriz=(install==="horizontal");
-
-    var isSH=(winType==="single-hung"), isSS=(winType==="single-slider");
-    var carve = (isSH && isHoriz) || (isSS && !isHoriz);   // guards skip the fixed pane ONLY here
-    var FIXFRAC=1.0;
-
-    /* operable dims (inches) */
-    var opWin = isHoriz ? lenVal : openVal;
-    var opHin = isHoriz ? openVal : lenVal;
-    var fixWin = (carve && isSS) ? opWin*FIXFRAC : 0;
-    var fixHin = (carve && isSH) ? opHin*FIXFRAC : 0;
-    var totWin = opWin+fixWin, totHin = opHin+fixHin;
-
-    var maxW=560, maxH=320;
-    var scale=Math.min(maxW/totWin, maxH/totHin);
-    var W=totWin*scale, H=totHin*scale;
-    var ow=opWin*scale, oh=opHin*scale, fw=fixWin*scale, fh=fixHin*scale;
-
-    var mL=60, mR=26, mT=26, mB=112;
-    var CW=Math.max(W+mL+mR, 300);
-    var CH=H+mT+mB;
-    var wx=mL+(CW-mL-mR-W)/2, wy=mT;
-    var cx=wx+W/2, cy=wy+H/2;
-
-    /* operable rect (where guards go) */
-    var ox=wx, oy=wy;
-    if(carve && isSH){ oy=wy+fh; }   // fixed on top → operable below
-    /* carve && isSS: operable on left (ox=wx, ow already = operable width)            */
-    /* non-carve / others: operable = full window (ow=W, oh=H by construction)         */
-
-    var svg='<rect x="'+wx+'" y="'+wy+'" width="'+W+'" height="'+H+'" rx="3" fill="'+GLASS+'" stroke="'+FRAME+'" stroke-width="2.5"/>';
-    var pills="";
-
-    /* ---- window-type art (under guards); FIXED pane shown for SH/SS in EVERY orientation ---- */
-    if(isSH){
-      var divY  = carve ? oy : (wy+H/2);     // carve: operable boundary; else: middle
-      var fHt   = carve ? fh : H/2;          // shaded top fixed-pane height
-      svg+='<rect x="'+(wx+2)+'" y="'+(wy+2)+'" width="'+(W-4)+'" height="'+(fHt-3)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
-      svg+='<line x1="'+wx+'" y1="'+divY+'" x2="'+(wx+W)+'" y2="'+divY+'" stroke="'+FRAME+'" stroke-width="2"/>';
-      var pyc=wy+fHt/2, pw=Math.min(50,W-8);
-      pills+='<rect x="'+(cx-pw/2)+'" y="'+(pyc-9)+'" width="'+pw+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
-      pills+='<text x="'+cx+'" y="'+(pyc+3.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
-    } else if(winType==="double-hung"){
-      svg+='<line x1="'+wx+'" y1="'+cy+'" x2="'+(wx+W)+'" y2="'+cy+'" stroke="'+FRAME+'" stroke-width="2"/>';
-    } else if(isSS){
-      var divX  = carve ? (ox+ow) : (wx+W/2);
-      var fWd   = carve ? fw : W/2;          // shaded right fixed-pane width
-      svg+='<rect x="'+(divX+2)+'" y="'+(wy+2)+'" width="'+(fWd-4)+'" height="'+(H-4)+'" rx="2" fill="rgba(0,61,76,0.2)"/>';
-      svg+='<line x1="'+divX+'" y1="'+wy+'" x2="'+divX+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
-      var pcx=divX+fWd/2, pw2=Math.min(50,fWd-8);
-      pills+='<rect x="'+(pcx-pw2/2)+'" y="'+(cy-9)+'" width="'+pw2+'" height="18" rx="9" fill="rgba(0,61,76,0.78)"/>';
-      pills+='<text x="'+pcx+'" y="'+(cy+3.5)+'" fill="#fff" font-family="Rajdhani,sans-serif" font-size="10" font-weight="800" text-anchor="middle">FIXED</text>';
-    } else if(winType==="double-slider"){
-      svg+='<line x1="'+cx+'" y1="'+wy+'" x2="'+cx+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
-    } else {
-      /* casement */
-      svg+='<line x1="'+cx+'" y1="'+wy+'" x2="'+cx+'" y2="'+(wy+H)+'" stroke="'+FRAME+'" stroke-width="2"/>';
-      var ix=Math.max(4,W*0.04), iy=Math.max(4,H*0.055);
-      svg+='<rect x="'+(wx+ix)+'" y="'+(wy+iy)+'" width="'+(W/2-2*ix)+'" height="'+(H-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
-      svg+='<rect x="'+(cx+ix)+'" y="'+(wy+iy)+'" width="'+(W/2-2*ix)+'" height="'+(H-2*iy)+'" fill="none" stroke="'+FRAME+'" stroke-width="1"/>';
-      svg+='<circle cx="'+(cx-4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/><circle cx="'+(cx+4)+'" cy="'+cy+'" r="2.5" fill="'+D+'"/>';
-      var tx=Math.max(8,W*0.12), ty=Math.max(6,H*0.075);
-      svg+='<path d="M'+cx+' '+(wy+ty)+' L'+(wx+tx)+' '+cy+' L'+cx+' '+(wy+H-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
-      svg+='<path d="M'+cx+' '+(wy+ty)+' L'+(wx+W-tx)+' '+cy+' L'+cx+' '+(wy+H-ty)+'" fill="none" stroke="'+O+'" stroke-width="1.5" stroke-dasharray="4 3"/>';
-    }
-
-    /* ---- guards inside the OPERABLE area only ---- */
-    var gpad=7;
-    var gx=ox+gpad, gy=oy+gpad, gw=ow-2*gpad, gh=oh-2*gpad;
-    var tier=findTier(openVal);
-    var secs=(tier&&tier[2])?tier[2]:["3"];
-    var nSec=secs.length;
-    var totalWt=0; secs.forEach(function(sz){ totalWt+=(SECH[sz]||13); });
-
-    if(isHoriz){
-      var gap=nSec>1?Math.max(6,gh*0.05):0;
-      var avail=gh-gap*(nSec-1), off=0;
-      for(var si=0;si<nSec;si++){
-        var bc=parseInt(secs[si],10);
-        var segH=avail*(SECH[secs[si]]||13)/totalWt;
-        var sy=gy+off;
-        svg+='<rect x="'+gx+'" y="'+sy+'" width="'+gw+'" height="'+segH+'" fill="rgba(0,156,166,0.07)"/>';
-        for(var ki=1;ki<=bc;ki++){ var by=sy+segH*ki/(bc+1);
-          svg+='<line x1="'+gx+'" y1="'+by+'" x2="'+(gx+gw)+'" y2="'+by+'" stroke="'+O+'" stroke-width="3" stroke-linecap="round" opacity="0.92"/>'; }
-        svg+='<line x1="'+gx+'" y1="'+sy+'" x2="'+gx+'" y2="'+(sy+segH)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
-        svg+='<line x1="'+(gx+gw)+'" y1="'+sy+'" x2="'+(gx+gw)+'" y2="'+(sy+segH)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
-        off+=segH+gap;
-      }
-    } else {
-      var gap=nSec>1?Math.max(6,gw*0.05):0;
-      var avail=gw-gap*(nSec-1), off=0;
-      for(var si=0;si<nSec;si++){
-        var bc=parseInt(secs[si],10);
-        var segW=avail*(SECH[secs[si]]||13)/totalWt;
-        var sx=gx+off;
-        svg+='<rect x="'+sx+'" y="'+gy+'" width="'+segW+'" height="'+gh+'" fill="rgba(0,156,166,0.07)"/>';
-        for(var ki=1;ki<=bc;ki++){ var bx2=sx+segW*ki/(bc+1);
-          svg+='<line x1="'+bx2+'" y1="'+gy+'" x2="'+bx2+'" y2="'+(gy+gh)+'" stroke="'+O+'" stroke-width="3" stroke-linecap="round" opacity="0.92"/>'; }
-        svg+='<line x1="'+sx+'" y1="'+gy+'" x2="'+(sx+segW)+'" y2="'+gy+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
-        svg+='<line x1="'+sx+'" y1="'+(gy+gh)+'" x2="'+(sx+segW)+'" y2="'+(gy+gh)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
-        off+=segW+gap;
-      }
-    }
-
-    /* FIXED pills on top */
-    svg+=pills;
-
-    /* ---- dimension markers (opening spans operable only in the carve cases) ---- */
-    var wA=(carve && isSS)?ox:wx,  wB=(carve && isSS)?(ox+ow):(wx+W);
-    var hA=(carve && isSH)?oy:wy,  hB=(carve && isSH)?(oy+oh):(wy+H);
-    var widthVal = isHoriz ? lenVal : openVal;
-    var heightVal = isHoriz ? openVal : lenVal;
-    var topLabel=trim(widthVal)+'\u2033 WIDTH';
-    var topColor=D;
-    var leftLabel=trim(heightVal)+'\u2033 HEIGHT';
-    var leftColor=O;
-
-    var bottomY=wy+H+20;
-    svg+=dash(wA,bottomY,wA,wy+H)+dash(wB,bottomY,wB,wy+H)+hArrow(wA,wB,bottomY,topColor)+txt((wA+wB)/2,bottomY+17,topColor,topLabel,false);
-    var leftX=wx-26;
-    svg+=dash(leftX,hA,wx,hA)+dash(leftX,hB,wx,hB)+vArrow(hA,hB,leftX,leftColor)+txt(leftX-9,(hA+hB)/2,leftColor,leftLabel,true);
-
-    /* ---- model tag ---- */
-    var items=sizes.map(function(sz){ return famM+"-"+sz+" \u00d7"+counts[sz]; });
-    var tagText="Model "+items.join("  +  ")+(total>1?"  (stacked)":"");
-    var pillW=Math.min(CW-16, tagText.length*6.6+30);
-    var pillX=(CW-pillW)/2, tagY=wy+H+52;
-    svg+='<rect x="'+pillX+'" y="'+tagY+'" width="'+pillW+'" height="26" rx="13" fill="'+D+'"/>'
-        +'<text x="'+(CW/2)+'" y="'+(tagY+17.5)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="13" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tagText+'</text>';
-
-    return '<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Installed window guard preview" style="width:100%;max-width:'+CW+'px;height:auto;">'+svg+'</svg>';
-  }
-
+  /* ---- LEFT-SIDE RESULTS (cards + cart + quantity) ---- */
   function render(fam, sizes, counts, total, widthVal, heightVal){
-    var data   = GA_DATA.variants[fam.m];
-    var handle = GA_DATA.handles[fam.m];
-    widthVal = typeof widthVal === "number" ? widthVal : parseFloat($("gaf-len").value);
-    heightVal = typeof heightVal === "number" ? heightVal : parseFloat($("gaf-open").value);
-    var lenVal  = install === "horizontal" ? widthVal : heightVal;
-    var openVal = install === "horizontal" ? heightVal : widthVal;
+    var data=GA_DATA.variants[fam.m], handle=GA_DATA.handles[fam.m];
 
     var cards = sizes.map(function(sz){
-      var v = data[sz];
-      var qty = counts[sz];
-      var model = fam.m+"-"+sz;
-      var url = SHOP+"/products/"+handle+"?variant="+v.id;
+      var v=data[sz], qty=counts[sz], model=fam.m+"-"+sz;
+      var url=SHOP+"/products/"+handle+"?variant="+v.id;
       return '<div class="gaf-card">'
-        +'<div class="gaf-card-imgwrap">'
-          +'<span class="gaf-qty">\u00d7'+qty+'</span>'
-          +'<img src="'+v.img+'" alt="Model '+model+' window guard" loading="lazy">'
-        +'</div>'
+        +'<div class="gaf-card-imgwrap"><span class="gaf-qty">\u00d7'+qty+'</span>'
+          +'<img src="'+v.img+'" alt="Model '+model+' window guard" loading="lazy"></div>'
         +'<div class="gaf-card-body">'
           +'<span class="gaf-card-model">Model '+model+'</span>'
           +'<span class="gaf-card-post">'+GA_DATA.post[sz]+' end posts</span>'
           +'<a class="gaf-card-link" href="'+url+'" target="_blank" rel="noopener">View product</a>'
-        +'</div>'
-        +'</div>';
+        +'</div></div>';
     }).join("");
 
     var plural = total===1 ? "GUARD" : "GUARDS";
 
-    var vizHtml = "";
-    if(install){
-      var typeLabel = TYPES[winType] ? TYPES[winType].label : "window";
-      vizHtml =
-        '<div class="gaf-resultviz">'
-        + '<p class="gaf-resultviz-cap">Here\u2019s your <strong>'+typeLabel+'</strong> with a <strong>'+install+' install</strong>. '
-        +   total+' guard'+(total>1?'s':'')+' for a <strong>'+trim(widthVal)+'\u2033 wide \u00d7 '+trim(heightVal)+'\u2033 high</strong> window area.</p>'
-        + resultDiagram(winType, install, lenVal, openVal, sizes, counts, total, fam.m)
-        + '</div>';
-    }
-
-    $("gaf-results").hidden = false;
+    $("gaf-results").hidden=false;
     $("gaf-results").innerHTML =
         '<div class="gaf-summary"><span class="gaf-count">'+total+' '+plural+'</span>'
         +'<span class="gaf-fam">Model '+fam.m+' \u2022 '+fam.min+'&quot;\u2013'+fam.max+'&quot;</span></div>'
-        +'<p class="gaf-famsub">Based on a '+trim(widthVal)+'&quot; wide by '+trim(heightVal)+'&quot; high window area, here\u2019s what we recommend <strong>per window</strong>:</p>'
+        +'<p class="gaf-famsub">For a '+trim(widthVal)+'&quot; wide by '+trim(heightVal)+'&quot; high area, here\u2019s what we recommend <strong>per window</strong>:</p>'
         +'<div class="gaf-cards">'+cards+'</div>'
-        +'<div class="gaf-qtyrow">'
-          +'<span class="gaf-qtylabel">Windows this size</span>'
+        +'<div class="gaf-qtyrow"><span class="gaf-qtylabel">Windows this size</span>'
           +'<div class="gaf-stepper">'
             +'<button type="button" class="gaf-stepbtn" id="gaf-winminus" aria-label="Fewer windows">\u2212</button>'
             +'<input class="gaf-stepval" id="gaf-winqty" type="number" min="1" step="1" value="1" inputmode="numeric" aria-label="Number of windows this size">'
             +'<button type="button" class="gaf-stepbtn" id="gaf-winplus" aria-label="More windows">+</button>'
-          +'</div>'
-        +'</div>'
+          +'</div></div>'
         +'<p class="gaf-qtynote" id="gaf-qtynote"></p>'
-        +'<a class="gaf-cart" id="gaf-cart" href="#" target="_blank" rel="noopener">Add to cart</a>'
-        +vizHtml;
+        +'<a class="gaf-cart" id="gaf-cart" href="#" target="_blank" rel="noopener">Add to cart</a>';
 
-    /* ---- quantity stepper wiring ---- */
     var winQ=$("gaf-winqty");
     function currentN(){ var v=parseInt(winQ.value,10); return (isNaN(v)||v<1)?1:v; }
     function applyQty(){
       var n=currentN();
       var pr=sizes.map(function(sz){ return data[sz].id+":"+(counts[sz]*n); }).join(",");
-      var totalAll=total*n;
-      var cart=$("gaf-cart");
+      var totalAll=total*n, cart=$("gaf-cart");
       cart.href=SHOP+"/cart/"+pr+"?storefront=true";
       cart.textContent = totalAll>1 ? ("Add all "+totalAll+" to cart") : "Add to cart";
       $("gaf-winminus").disabled=(n<=1);
@@ -1043,6 +865,9 @@
 
     $("gaf-results").scrollIntoView({behavior:"smooth", block:"nearest"});
   }
+
+  /* first paint */
+  renderPreview();
 
 })();
 </script>
