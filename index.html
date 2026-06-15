@@ -1,7 +1,7 @@
 <!-- ===========================================-->
 <!--  GUARDIAN ANGEL WINDOW GUARDS MODEL FINDER -->
 <!-- ===========================================-->
-<!--  Version 6 — split-screen "build as you go" -->
+<!--  Version 7 — end-post minimum validation -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -85,7 +85,7 @@
             <input type="number" id="gaf-len" inputmode="decimal" min="0" step="0.125" placeholder="e.g. 32">
           </label>
         </div>
-        <p class="gaf-range">Guards fit most window areas with one side from 14&quot;&ndash;120&quot; and the other side up to 91&quot;. Not sure how to measure? See the
+        <p class="gaf-range">Guards fit most window areas with one side from 14&quot;&ndash;120&quot;. The covered side must be at least 13&quot; because the 3-bar guard has fixed 13&quot; end posts, and can be covered up to 91&quot; with stacked guards. Not sure how to measure? See the
           <a href="https://gaguards.com/pages/instructions" target="_blank" rel="noopener">measuring instructions</a>.</p>
         <p class="gaf-recheck-msg" id="gaf-recheck" hidden>
           <strong>⚠️ Reminder:</strong> If you changed between <strong>Horizontal</strong> and <strong>Vertical</strong>,
@@ -361,6 +361,9 @@
     [86.875,91.25,  ["5","5","5","5"]]
   ];
   const LEN_MIN=14, LEN_MAX=120, OPEN_MAX=91.25;
+  const POST_MIN = { "3":13, "4":17.375, "5":21.75 };
+  const POST_LABEL = { "3":"13&quot;", "4":"17 3/8&quot;", "5":"21 3/4&quot;" };
+  const COVER_MIN = POST_MIN["3"];
 
   /* ---- WINDOW TYPES ---- */
   const TYPES = {
@@ -453,11 +456,35 @@
   ================================================================ */
   function findFamily(len){ for(var i=0;i<FAMILIES.length;i++){ if(len>=FAMILIES[i].min && len<=FAMILIES[i].max) return FAMILIES[i]; } return null; }
   function findTier(open){
-    var o = open < 13 ? 13 : open;
-    for(var i=0;i<TIERS.length;i++){ if(o<=TIERS[i][1]) return TIERS[i]; }
+    for(var i=0;i<TIERS.length;i++){ if(open<=TIERS[i][1]) return TIERS[i]; }
     return null;
   }
   function trim(n){ return (Math.round(n*1000)/1000).toString(); }
+  function formatInches(n){
+    var whole=Math.floor(n);
+    var eighths=Math.round((n-whole)*8);
+    if(eighths===0) return whole+'&quot;';
+    if(eighths===8) return (whole+1)+'&quot;';
+    var den=8, num=eighths;
+    if(num%4===0){ num=num/4; den=2; }
+    else if(num%2===0){ num=num/2; den=4; }
+    return whole+' '+num+'/'+den+'&quot;';
+  }
+  function minimumRequiredForBars(bars){
+    var total=0;
+    bars.forEach(function(sz){ total += POST_MIN[sz] || 0; });
+    return total;
+  }
+  function guardRequirementLabel(bars){
+    var counts={};
+    bars.forEach(function(sz){ counts[sz]=(counts[sz]||0)+1; });
+    return Object.keys(counts).sort().map(function(sz){
+      return counts[sz]+' x '+sz+'-bar';
+    }).join(' + ');
+  }
+  function postMinimumText(){
+    return '3-bar: <strong>'+POST_LABEL['3']+'</strong>, 4-bar: <strong>'+POST_LABEL['4']+'</strong>, 5-bar: <strong>'+POST_LABEL['5']+'</strong>';
+  }
 
   /* ================================================================
      LIVE PREVIEW — one renderer for every stage
@@ -478,7 +505,7 @@
   function previewSVG(winType, install, widthIn, heightIn){
     var D="#003D4C", O="#009CA6", GLASS="#e8f4f5", FRAME="#003D4C";
     var WID="#6B3FA0", HEI="#008000";
-    var SECH={"3":13,"4":17.375,"5":21.75};
+    var SECH=POST_MIN;
 
     var hasW = !isNaN(widthIn)  && widthIn>0;
     var hasH = !isNaN(heightIn) && heightIn>0;
@@ -507,7 +534,9 @@
     /* what to show */
     var len  = hasInstall ? (isHoriz ? wIn : hIn) : null;
     var open = hasInstall ? (isHoriz ? hIn : wIn) : null;
-    var realGuards = hasInstall && hasW && hasH && len>=LEN_MIN && len<=LEN_MAX && open<=OPEN_MAX;
+    var tierForOpen = hasInstall && hasW && hasH ? findTier(open) : null;
+    var minReqForOpen = tierForOpen ? minimumRequiredForBars(tierForOpen[2]) : null;
+    var realGuards = hasInstall && hasW && hasH && tierForOpen && len>=LEN_MIN && len<=LEN_MAX && open>=minReqForOpen && open<=OPEN_MAX;
     var showGuards = hasInstall;
     var showArrows = hasInstall;
     var showTag    = realGuards;
@@ -665,13 +694,15 @@
     var hasW=!isNaN(w)&&w>0, hasH=!isNaN(h)&&h>0;
     var len  = install==="horizontal"? w : h;
     var open = install==="horizontal"? h : w;
-    var real = hasW&&hasH && len>=LEN_MIN && len<=LEN_MAX && open<=OPEN_MAX;
+    var previewTier = hasW&&hasH ? findTier(open) : null;
+    var previewMinReq = previewTier ? minimumRequiredForBars(previewTier[2]) : null;
+    var real = hasW&&hasH && previewTier && len>=LEN_MIN && len<=LEN_MAX && open>=previewMinReq && open<=OPEN_MAX;
     if(real){
-      var total=findTier(open)[2].length;
-      cap.innerHTML = "Your <strong>"+tl+"</strong> with a <strong>"+install+" install</strong> &mdash; "
-        + total+" guard"+(total>1?"s":"")+" for a <strong>"+trim(w)+"\u2033 \u00d7 "+trim(h)+"\u2033</strong> area.";
+      var total=previewTier[2].length;
+      cap.innerHTML = "Your <strong>"+tl+"</strong> with a <strong>"+install+" install</strong>. "
+        + total+" guard"+(total>1?"s":"")+" fit a <strong>"+trim(w)+"\u2033 \u00d7 "+trim(h)+"\u2033</strong> area.";
     } else {
-      cap.innerHTML = "Your <strong>"+tl+"</strong> with a <strong>"+install+" install</strong>. Enter the height and width to size it and generate your guard solution.";
+      cap.innerHTML = "Your <strong>"+tl+"</strong> with a <strong>"+install+" install</strong>. Enter a height and width large enough for the fixed end posts to generate your guard solution.";
     }
   }
 
@@ -714,8 +745,9 @@
       + '<p class="gaf-note-sub">How to measure the window area</p>'
       + '<p class="gaf-note-run">The guard runs <strong>'+runDir+'</strong>. Use the preview on the right as your guide.</p>'
       + '<ol class="gaf-note-steps">'
-      +   '<li><span class="gaf-height-em">Height:</span> measure top to bottom &mdash; the <span class="gaf-height-em">green</span> arrow on the preview.</li>'
-      +   '<li><span class="gaf-width-em">Width:</span> measure side to side &mdash; the <span class="gaf-width-em">purple</span> arrow on the preview.</li>'
+      +   '<li><span class="gaf-height-em">Height:</span> measure top to bottom. Follow the <span class="gaf-height-em">green</span> arrow on the preview.</li>'
+      +   '<li><span class="gaf-width-em">Width:</span> measure side to side. Follow the <span class="gaf-width-em">purple</span> arrow on the preview.</li>'
+      +   '<li><strong>Minimum guard size:</strong> guards cannot be shorter than their fixed end posts. '+postMinimumText()+'.</li>'
       + '</ol>';
     $("gaf-guidebox").hidden = false;
   }
@@ -804,6 +836,11 @@
     var fam=findFamily(len), tier=findTier(open);
     if(!fam || !tier) return msg("Something went off-script with those numbers. Please double-check the height and width, or <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a>.", "err");
 
+    var minRequired = minimumRequiredForBars(tier[2]);
+    if(open < minRequired){
+      return msg("For this install direction, the window "+coverSideName+" must be <strong>at least 13\"</strong> because our smallest guard variation (3-bar guard) has fixed end posts of height 13\". Your "+coverSideName+" is "+trim(open)+"\". Please <a href=\""+SHOP+"/pages/contact\" target=\"_blank\" rel=\"noopener\">contact us</a> for a custom recommendation.", "err");
+    }
+
     var counts={}; tier[2].forEach(function(sz){ counts[sz]=(counts[sz]||0)+1; });
     var sizes=Object.keys(counts).sort();
     render(fam, sizes, counts, tier[2].length, width, height);
@@ -822,7 +859,7 @@
           +'<img src="'+v.img+'" alt="Model '+model+' window guard" loading="lazy"></div>'
         +'<div class="gaf-card-body">'
           +'<span class="gaf-card-model">Model '+model+'</span>'
-          +'<span class="gaf-card-post">'+GA_DATA.post[sz]+' end posts</span>'
+          +'<span class="gaf-card-post">Fixed end-post size: '+GA_DATA.post[sz]+'</span>'
           +'<a class="gaf-card-link" href="'+url+'" target="_blank" rel="noopener">View product</a>'
         +'</div></div>';
     }).join("");
