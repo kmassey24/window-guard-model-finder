@@ -484,12 +484,22 @@
     var hColor = isHoriz ? O : D;
     var wText  = isHoriz ? "LENGTH \u2013 width"   : "OPENING \u2013 width";
     var hText  = isHoriz ? "OPENING \u2013 height" : "LENGTH \u2013 height";
-    var topY=30, leftX=44;
-    var dims =
-        dash(fx,topY,fx,fy)+dash(fx+fw,topY,fx+fw,fy)+hArrow(fx,fx+fw,topY,wColor)+txt(cx,20,wColor,wText,false)
-      + dash(leftX,fy,fx,fy)+dash(leftX,fy+fh,fx,fy+fh)+vArrow(fy,fy+fh,leftX,hColor)+txt(22,cy,hColor,hText,true);
 
-    return '<svg viewBox="0 0 288 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="window measurement guide">'
+    /* Opening arrows only span the non-fixed pane in the two special cases:
+       1. Single Hung + Horizontal install: Opening is only the lower operable sash height.
+       2. Single Slider + Vertical install: Opening is only the left operable sash width. */
+    var wA = fx, wB = fx + fw;
+    var hA = fy, hB = fy + fh;
+    if(winType === "single-slider" && !isHoriz){ wB = fx + fw/2; }
+    if(winType === "single-hung" && isHoriz){ hA = fy + fh/2; }
+
+    var bottomY = fy + fh + 22;
+    var leftX = 44;
+    var dims =
+        dash(wA,bottomY,wA,fy+fh)+dash(wB,bottomY,wB,fy+fh)+hArrow(wA,wB,bottomY,wColor)+txt((wA+wB)/2,bottomY+18,wColor,wText,false)
+      + dash(leftX,hA,fx,hA)+dash(leftX,hB,fx,hB)+vArrow(hA,hB,leftX,hColor)+txt(22,(hA+hB)/2,hColor,hText,true);
+
+    return '<svg viewBox="0 0 288 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="window measurement guide">'
             +'<g class="window">'+frame+'</g>'
             +'<g class="bars">'+bars+'</g>'
             +'<g class="posts">'+posts+'</g>'
@@ -788,7 +798,7 @@
     var W=totWin*scale, H=totHin*scale;
     var ow=opWin*scale, oh=opHin*scale, fw=fixWin*scale, fh=fixHin*scale;
 
-    var mL=60, mR=26, mT=46, mB=72;
+    var mL=60, mR=26, mT=26, mB=112;
     var CW=Math.max(W+mL+mR, 300);
     var CH=H+mT+mB;
     var wx=mL+(CW-mL-mR-W)/2, wy=mT;
@@ -886,8 +896,8 @@
     var leftLabel=(topIsLength?trim(openVal):trim(lenVal))+'\u2033 '+(topIsLength?"OPENING":"LENGTH");
     var leftColor=topIsLength?O:D;
 
-    var topY=wy-20;
-    svg+=dash(wA,topY,wA,wy)+dash(wB,topY,wB,wy)+hArrow(wA,wB,topY,topColor)+txt((wA+wB)/2,topY-7,topColor,topLabel,false);
+    var bottomY=wy+H+20;
+    svg+=dash(wA,bottomY,wA,wy+H)+dash(wB,bottomY,wB,wy+H)+hArrow(wA,wB,bottomY,topColor)+txt((wA+wB)/2,bottomY+17,topColor,topLabel,false);
     var leftX=wx-26;
     svg+=dash(leftX,hA,wx,hA)+dash(leftX,hB,wx,hB)+vArrow(hA,hB,leftX,leftColor)+txt(leftX-9,(hA+hB)/2,leftColor,leftLabel,true);
 
@@ -895,7 +905,7 @@
     var items=sizes.map(function(sz){ return famM+"-"+sz+" \u00d7"+counts[sz]; });
     var tagText="Model "+items.join("  +  ")+(total>1?"  (stacked)":"");
     var pillW=Math.min(CW-16, tagText.length*6.6+30);
-    var pillX=(CW-pillW)/2, tagY=wy+H+24;
+    var pillX=(CW-pillW)/2, tagY=wy+H+52;
     svg+='<rect x="'+pillX+'" y="'+tagY+'" width="'+pillW+'" height="26" rx="13" fill="'+D+'"/>'
         +'<text x="'+(CW/2)+'" y="'+(tagY+17.5)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="13" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tagText+'</text>';
 
