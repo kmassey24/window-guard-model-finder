@@ -46,14 +46,20 @@
     <p class="gaf-stephint">Guards can be mounted either way. We recommend <b>Horizontal Installs for Single/Double Hung Windows, and Vertical for Slider and Casement Windows</b>. Select the direction you plan to install. We will then show you what to measure.</p>
     <div class="gaf-installs" id="gaf-installs" role="radiogroup" aria-label="Install direction">
       <button class="gaf-install" data-install="horizontal" role="radio" aria-checked="false">
+        <span class="gaf-rec-badge" aria-hidden="true">✦ Recommended</span>
         <span class="gaf-install-icon" id="icon-horiz"></span>
-        <span class="gaf-install-t">Horizontal</span>
-        <span class="gaf-install-d">Bars run left&#8209;to&#8209;right</span>
+        <span class="gaf-install-copy">
+          <span class="gaf-install-t">Horizontal</span>
+          <span class="gaf-install-d">Bars run left&#8209;to&#8209;right</span>
+        </span>
       </button>
       <button class="gaf-install" data-install="vertical" role="radio" aria-checked="false">
+        <span class="gaf-rec-badge" aria-hidden="true">✦ Recommended</span>
         <span class="gaf-install-icon" id="icon-vert"></span>
-        <span class="gaf-install-t">Vertical</span>
-        <span class="gaf-install-d">Bars run top&#8209;to&#8209;bottom</span>
+        <span class="gaf-install-copy">
+          <span class="gaf-install-t">Vertical</span>
+          <span class="gaf-install-d">Bars run top&#8209;to&#8209;bottom</span>
+        </span>
       </button>
     </div>
     <div class="gaf-typepanel" id="gaf-typepanel" hidden>
@@ -146,8 +152,16 @@
   /* INSTALL DIRECTION PILLS */
   .gaf-installs{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
   .gaf-install{font-family:inherit; text-align:left; cursor:pointer; padding:18px 20px; border:1.5px solid var(--line);
-    background:var(--white); border-radius:14px; display:flex; flex-direction:row; align-items:center; gap:16px; transition:all .15s ease;}
+    background:var(--white); border-radius:14px; display:flex; flex-direction:row; align-items:center; gap:16px; transition:all .15s ease; position:relative;}
   .gaf-install:hover{border-color:var(--teal); background:var(--soft);}
+  .gaf-install.is-recommended{border-color:var(--teal); background:linear-gradient(180deg,#ffffff 0%,#f3fbfb 100%); box-shadow:0 0 0 1px rgba(0,156,166,.22), 0 8px 18px rgba(0,61,76,.08);}
+  .gaf-install.is-recommended:hover{border-color:var(--deep); background:var(--soft);}
+  .gaf-rec-badge{display:none; position:absolute; top:9px; right:10px; align-items:center; gap:4px; padding:3px 8px;
+    border-radius:999px; background:#eefbfc; border:1px solid rgba(0,156,166,.35); color:var(--teal);
+    font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; line-height:1.2; box-shadow:0 2px 8px rgba(0,61,76,.07);}
+  .gaf-install.is-recommended .gaf-rec-badge{display:inline-flex;}
+  .gaf-install.is-recommended .gaf-install-t{padding-right:88px;}
+
   .gaf-install[aria-checked="true"]{border-color:var(--deep); background:var(--soft); box-shadow:inset 0 0 0 1px var(--deep);}
   .gaf-install:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
   .gaf-install-icon{flex:0 0 52px; width:52px; height:52px;}
@@ -226,7 +240,8 @@
     .gaf-installs{grid-template-columns:1fr;}
     .gaf-typepanel{flex-direction:column; text-align:center;}
     .gaf-typeimg{flex:none;}
-    .gaf-install{flex-direction:column; text-align:center;}
+    .gaf-install{flex-direction:column; text-align:center; padding-top:34px;}
+    .gaf-install.is-recommended .gaf-install-t{padding-right:0;}
   }
   @media (max-width:420px){
     .gaf-types{grid-template-columns:1fr 1fr;}
@@ -486,8 +501,8 @@
     var hText  = isHoriz ? "OPENING \u2013 height" : "LENGTH \u2013 height";
 
     /* Opening arrows only span the non-fixed pane in the two special cases:
-       1. Single Hung + Horizontal install: Opening is only the lower operable sash height.
-       2. Single Slider + Vertical install: Opening is only the left operable sash width. */
+       1. Single Hung plus Horizontal install: Opening is only the lower operable sash height.
+       2. Single Slider plus Vertical install: Opening is only the left operable sash width. */
     var wA = fx, wB = fx + fw;
     var hA = fy, hB = fy + fh;
     if(winType === "single-slider" && !isHoriz){ wB = fx + fw/2; }
@@ -590,11 +605,31 @@
   $("icon-horiz").innerHTML = orientIcon("horizontal");
   $("icon-vert").innerHTML  = orientIcon("vertical");
 
+  function recommendedInstallForType(type){
+    if(type === "single-hung" || type === "double-hung") return "horizontal";
+    if(type === "single-slider" || type === "double-slider" || type === "casement") return "vertical";
+    return null;
+  }
+
+  function updateInstallRecommendations(){
+    var rec = recommendedInstallForType(winType);
+    document.querySelectorAll(".gaf-install").forEach(function(b){
+      var isRec = rec && b.dataset.install === rec;
+      b.classList.toggle("is-recommended", !!isRec);
+      if(isRec){
+        b.setAttribute("aria-label", b.dataset.install + " install, recommended for this window type");
+      } else {
+        b.removeAttribute("aria-label");
+      }
+    });
+  }
+
   /* ---- STEP 1: Window type selection ---- */
   $("gaf-types").addEventListener("click", function(e){
     var btn = e.target.closest(".gaf-type"); if(!btn) return;
     winType = btn.dataset.type;
     document.querySelectorAll(".gaf-type").forEach(function(b){ b.setAttribute("aria-checked", String(b===btn)); });
+    updateInstallRecommendations();
 
     /* Reveal step 2 */
     $("gaf-step2").hidden = false;
@@ -677,7 +712,11 @@
 
     /* deselect all pills */
     document.querySelectorAll(".gaf-type").forEach(function(b){ b.setAttribute("aria-checked","false"); });
-    document.querySelectorAll(".gaf-install").forEach(function(b){ b.setAttribute("aria-checked","false"); });
+    document.querySelectorAll(".gaf-install").forEach(function(b){
+      b.setAttribute("aria-checked","false");
+      b.classList.remove("is-recommended");
+      b.removeAttribute("aria-label");
+    });
 
     /* clear inputs + highlight */
     $("gaf-len").value = "";
