@@ -1,7 +1,7 @@
 <!-- ===========================================-->
 <!--  GUARDIAN ANGEL WINDOW GUARDS MODEL FINDER -->
 <!-- ===========================================-->
-<!--  Version 3 -->
+<!--  Version 4 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -192,7 +192,7 @@
   .gaf-summary{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px;}
   .gaf-count{font-size:32px; font-weight:700; color:var(--deep); line-height:1;}
   .gaf-fam{font-size:18px; font-weight:600; color:var(--teal); text-transform:uppercase; letter-spacing:.05em;}
-  .gaf-famsub{font-size:16px; color:var(--ink); opacity:.8; margin-bottom:22px; line-height:1.5;}
+  .gaf-famsub{font-size:16px; color:var(--ink); opacity:.8; padding-bottom:18px; line-height:1.5;}
 
   .gaf-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,230px)); gap:16px; justify-content:center;}
   .gaf-card{border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--white); display:flex; flex-direction:column;}
@@ -209,7 +209,7 @@
   .gaf-card-link::after{content:"\2192"; transition:transform .15s ease;}
   .gaf-card-link:hover::after{transform:translateX(3px);}
 
-  .gaf-cart{margin-top:20px; width:100%; display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  .gaf-cart{margin-top:14px; width:100%; display:inline-flex; align-items:center; justify-content:center; gap:9px;
     font-family:inherit; font-size:19px; font-weight:700; text-transform:uppercase; letter-spacing:.07em;
     color:#fff; background:var(--teal); border:none; border-radius:12px; padding:17px; cursor:pointer; text-decoration:none;
     transition:background .15s ease;}
@@ -249,6 +249,24 @@
     line-height:1.55;
   }
   .gaf-recheck-msg strong{color:#8a2b2b;}
+
+  /* ORDER QUANTITY STEPPER */
+  .gaf-qtyrow{margin-top:24px; display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;}
+  .gaf-qtylabel{font-size:15px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep);}
+  .gaf-stepper{display:inline-flex; align-items:center; border:1.5px solid var(--line); border-radius:12px; overflow:hidden; background:var(--white);}
+  .gaf-stepbtn{font-family:inherit; width:46px; height:46px; font-size:24px; font-weight:700; color:var(--deep);
+    background:var(--white); border:none; cursor:pointer; line-height:1; transition:background .15s ease, color .15s ease;}
+  .gaf-stepbtn:hover{background:var(--soft); color:var(--teal);}
+  .gaf-stepbtn:disabled{opacity:.3; cursor:not-allowed;}
+  .gaf-stepbtn:focus-visible{outline:3px solid var(--teal); outline-offset:-3px;}
+  .gaf-stepval{font-family:inherit; width:58px; height:46px; text-align:center; font-size:22px; font-weight:700;
+    color:var(--deep); border:none; border-left:1.5px solid var(--line); border-right:1.5px solid var(--line);
+    background:var(--white); -moz-appearance:textfield; appearance:textfield;}
+  .gaf-stepval:focus{outline:none; background:var(--soft);}
+  .gaf-stepval::-webkit-outer-spin-button,
+  .gaf-stepval::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+  .gaf-qtynote{padding-top:14px; text-align:center; font-size:14px; color:var(--ink); opacity:.85; line-height:1.5;}
+  .gaf-qtynote strong{color:var(--deep); opacity:1;}
   
   /* START OVER */
   .gaf-reset-wrap{text-align:center; padding-top:18px;}
@@ -660,10 +678,18 @@
     $("gaf-step2").hidden = true;
     $("gaf-step3").hidden = true;
     $("gaf-typepanel").hidden = true;
+    $("gaf-typeimg").innerHTML = "";
+    $("gaf-typenote").innerHTML = "";
     $("gaf-results").hidden = true;
     $("gaf-results").innerHTML = "";
     $("gaf-reset").hidden = true;
 
+    /* clear inputs + highlight */
+    $("gaf-len").value = "";
+    $("gaf-open").value = "";
+    clearRecheck();
+    $("gaf-recheck").hidden = true;   // ← ensure the Step 2 reminder is hidden
+    
     /* scroll back to the top of the finder */
     document.getElementById("ga-finder").scrollIntoView({behavior:"smooth", block:"start"});
   }
@@ -900,9 +926,7 @@
         +'</div>';
     }).join("");
 
-    var pairs   = sizes.map(function(sz){ return data[sz].id+":"+counts[sz]; }).join(",");
-    var cartUrl = SHOP+"/cart/"+pairs+"?storefront=true";
-    var plural  = total===1 ? "GUARD" : "GUARDS";
+    var plural = total===1 ? "GUARD" : "GUARDS";
 
     var vizHtml = "";
     if(install){
@@ -919,12 +943,43 @@
     $("gaf-results").innerHTML =
         '<div class="gaf-summary"><span class="gaf-count">'+total+' '+plural+'</span>'
         +'<span class="gaf-fam">Model '+fam.m+' \u2022 '+fam.min+'&quot;\u2013'+fam.max+'&quot;</span></div>'
-        +'<p class="gaf-famsub">Based on a '+trim(lenVal)+'&quot; length and '+trim(openVal)+'&quot; opening, here\u2019s what we recommend:</p>'
+        +'<p class="gaf-famsub">Based on a '+trim(lenVal)+'&quot; length and '+trim(openVal)+'&quot; opening, here\u2019s what we recommend <strong>per window</strong>:</p>'
         +'<div class="gaf-cards">'+cards+'</div>'
-        +'<a class="gaf-cart" href="'+cartUrl+'" target="_blank" rel="noopener">Add '+(total>1?('all '+total+' '):'')+'to cart</a>'
+        +'<div class="gaf-qtyrow">'
+          +'<span class="gaf-qtylabel">Windows this size</span>'
+          +'<div class="gaf-stepper">'
+            +'<button type="button" class="gaf-stepbtn" id="gaf-winminus" aria-label="Fewer windows">\u2212</button>'
+            +'<input class="gaf-stepval" id="gaf-winqty" type="number" min="1" step="1" value="1" inputmode="numeric" aria-label="Number of windows this size">'
+            +'<button type="button" class="gaf-stepbtn" id="gaf-winplus" aria-label="More windows">+</button>'
+          +'</div>'
+        +'</div>'
+        +'<p class="gaf-qtynote" id="gaf-qtynote"></p>'
+        +'<a class="gaf-cart" id="gaf-cart" href="#" target="_blank" rel="noopener">Add to cart</a>'
         +vizHtml;
+
+    /* ---- quantity stepper wiring ---- */
+    var winQ=$("gaf-winqty");
+    function currentN(){ var v=parseInt(winQ.value,10); return (isNaN(v)||v<1)?1:v; }
+    function applyQty(){
+      var n=currentN();
+      var pr=sizes.map(function(sz){ return data[sz].id+":"+(counts[sz]*n); }).join(",");
+      var totalAll=total*n;
+      var cart=$("gaf-cart");
+      cart.href=SHOP+"/cart/"+pr+"?storefront=true";
+      cart.textContent = totalAll>1 ? ("Add all "+totalAll+" to cart") : "Add to cart";
+      $("gaf-winminus").disabled=(n<=1);
+      var note=$("gaf-qtynote");
+      if(n>1){ note.innerHTML="<strong>"+n+"</strong> windows \u00d7 <strong>"+total+"</strong> guard"+(total>1?"s":"")+" each = <strong>"+totalAll+"</strong> guards total"; }
+      else { note.textContent=""; }
+    }
+    $("gaf-winminus").addEventListener("click", function(){ winQ.value=Math.max(1,currentN()-1); applyQty(); });
+    $("gaf-winplus").addEventListener("click",  function(){ winQ.value=currentN()+1; applyQty(); });
+    winQ.addEventListener("input", applyQty);
+    winQ.addEventListener("change", function(){ winQ.value=currentN(); applyQty(); });
+    applyQty();
 
     $("gaf-results").scrollIntoView({behavior:"smooth", block:"nearest"});
   }
+
 })();
 </script>
