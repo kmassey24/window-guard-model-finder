@@ -1,7 +1,7 @@
 <!-- ===========================================-->
 <!--  GUARDIAN ANGEL WINDOW GUARDS MODEL FINDER -->
 <!-- ===========================================-->
-<!--  Version 7 — end-post minimum validation -->
+<!--  Version 88 - white window guards -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -393,22 +393,26 @@
     return '<text x="'+x+'" y="'+y+'"'+t+' fill="'+c+'" font-family="Rajdhani,sans-serif" font-size="12" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+s+'</text>';
   }
 
-  /* ---- one guard "section": bars + two end posts ---- */
+  /* ---- one guard "section": white bars + white end posts with subtle outline/glow ---- */
+  function guardStroke(x1,y1,x2,y2,mainW,outlineW){
+    return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#315d67" stroke-width="'+outlineW+'" stroke-linecap="round" opacity="0.42"/>'
+      +'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#ffffff" stroke-width="'+mainW+'" stroke-linecap="round" opacity="0.98"/>';
+  }
   function guardSectionH(x,y,w,h,bars,D,O){
-    var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="rgba(0,156,166,0.07)"/>';
+    var s='<g filter="url(#gaf-guard-glow)">';
     for(var k=1;k<=bars;k++){ var by=y+h*k/(bars+1);
-      s+='<line x1="'+x+'" y1="'+by+'" x2="'+(x+w)+'" y2="'+by+'" stroke="'+O+'" stroke-width="3" stroke-linecap="round" opacity="0.92"/>'; }
-    s+='<line x1="'+x+'" y1="'+y+'" x2="'+x+'" y2="'+(y+h)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
-    s+='<line x1="'+(x+w)+'" y1="'+y+'" x2="'+(x+w)+'" y2="'+(y+h)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
-    return s;
+      s+=guardStroke(x,by,x+w,by,3,5.5); }
+    s+=guardStroke(x,y,x,y+h,4.5,7);
+    s+=guardStroke(x+w,y,x+w,y+h,4.5,7);
+    return s+'</g>';
   }
   function guardSectionV(x,y,w,h,bars,D,O){
-    var s='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="rgba(0,156,166,0.07)"/>';
+    var s='<g filter="url(#gaf-guard-glow)">';
     for(var k=1;k<=bars;k++){ var bx=x+w*k/(bars+1);
-      s+='<line x1="'+bx+'" y1="'+y+'" x2="'+bx+'" y2="'+(y+h)+'" stroke="'+O+'" stroke-width="3" stroke-linecap="round" opacity="0.92"/>'; }
-    s+='<line x1="'+x+'" y1="'+y+'" x2="'+(x+w)+'" y2="'+y+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
-    s+='<line x1="'+x+'" y1="'+(y+h)+'" x2="'+(x+w)+'" y2="'+(y+h)+'" stroke="'+D+'" stroke-width="4.5" stroke-linecap="round"/>';
-    return s;
+      s+=guardStroke(bx,y,bx,y+h,3,5.5); }
+    s+=guardStroke(x,y,x+w,y,4.5,7);
+    s+=guardStroke(x,y+h,x+w,y+h,4.5,7);
+    return s+'</g>';
   }
 
   /* ---- WINDOW TYPE ICON (picker thumbnail) ---- */
@@ -482,7 +486,7 @@
       return counts[sz]+' x '+sz+'-bar';
     }).join(' + ');
   }
-  
+
   /* ================================================================
      LIVE PREVIEW — one renderer for every stage
        stage 1: window only (no install yet)
@@ -641,7 +645,8 @@
           +'<text x="'+(CW/2)+'" y="'+(tagY+16)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tagText+'</text>';
     }
 
-    return '<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Window guard preview">'+svg+'</svg>';
+    var defs='<defs><filter id="gaf-guard-glow" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#ffffff" flood-opacity="0.92"/><feDropShadow dx="0" dy="1" stdDeviation="1.4" flood-color="#003D4C" flood-opacity="0.22"/></filter></defs>';
+    return '<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Window guard preview">'+defs+svg+'</svg>';
   }
 
   /* ================================================================
