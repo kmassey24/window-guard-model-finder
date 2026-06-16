@@ -398,9 +398,17 @@
     return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#315d67" stroke-width="'+outlineW+'" stroke-linecap="round" opacity="0.42"/>'
       +'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#ffffff" stroke-width="'+mainW+'" stroke-linecap="round" opacity="0.98"/>';
   }
+  /* bars sit equally spaced between the end posts, leaving only a small
+     margin at each post (BAR_END_FRAC of the span) so they aren't spread out */
+  var BAR_END_FRAC = 0.09;
+  function barOffset(span, idx, bars){
+    if(bars<=1) return span/2;
+    var m = span*BAR_END_FRAC;
+    return m + (span-2*m)*idx/(bars-1);
+  }
   function guardSectionH(x,y,w,h,bars,D,O){
     var s='<g filter="url(#gaf-guard-glow)">';
-    for(var k=1;k<=bars;k++){ var by=y+h*k/(bars+1);
+    for(var k=0;k<bars;k++){ var by=y+barOffset(h,k,bars);
       s+=guardStroke(x,by,x+w,by,3,5.5); }
     s+=guardStroke(x,y,x,y+h,4.5,7);
     s+=guardStroke(x+w,y,x+w,y+h,4.5,7);
@@ -408,7 +416,7 @@
   }
   function guardSectionV(x,y,w,h,bars,D,O){
     var s='<g filter="url(#gaf-guard-glow)">';
-    for(var k=1;k<=bars;k++){ var bx=x+w*k/(bars+1);
+    for(var k=0;k<bars;k++){ var bx=x+barOffset(w,k,bars);
       s+=guardStroke(bx,y,bx,y+h,3,5.5); }
     s+=guardStroke(x,y,x+w,y,4.5,7);
     s+=guardStroke(x,y+h,x+w,y+h,4.5,7);
@@ -597,13 +605,16 @@
         var nSec=secs.length, totalWt=0;
         secs.forEach(function(sz){ totalWt+=(SECH[sz]||13); });
         var off=0, si, bc;
+        /* stacked guards sit with just a very small gap between their
+           adjacent end posts (not overlapping, not spread apart) */
+        var STACK_GAP = 6;
         if(isHoriz){
-          var gapH=nSec>1?Math.max(6,gh*0.05):0, availH=gh-gapH*(nSec-1);
+          var gapH=nSec>1?STACK_GAP:0, availH=gh-gapH*(nSec-1);
           for(si=0;si<nSec;si++){ bc=parseInt(secs[si],10);
             var segH=availH*(SECH[secs[si]]||13)/totalWt;
             svg+=guardSectionH(gx,gy+off,gw,segH,bc,D,O); off+=segH+gapH; }
         } else {
-          var gapW=nSec>1?Math.max(6,gw*0.05):0, availW=gw-gapW*(nSec-1);
+          var gapW=nSec>1?STACK_GAP:0, availW=gw-gapW*(nSec-1);
           for(si=0;si<nSec;si++){ bc=parseInt(secs[si],10);
             var segW=availW*(SECH[secs[si]]||13)/totalWt;
             svg+=guardSectionV(gx+off,gy,segW,gh,bc,D,O); off+=segW+gapW; }
