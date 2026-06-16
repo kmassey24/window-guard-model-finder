@@ -247,6 +247,8 @@
   .gaf-card-link::after{content:"\2192"; transition:transform .15s ease;}
   .gaf-card-link:hover::after{transform:translateX(3px);}
 
+  .gaf-cardsnote{margin-top:0; padding-top:20px; text-align:center; font-size:13.5px; color:var(--deep); line-height:1.5;}
+  .gaf-cardsnote a{color:var(--deep); font-weight:700; text-decoration:underline;}
   .gaf-qtymsg{margin-top:24px;}
   .gaf-qtyrow{margin-top:16px; display:flex; align-items:center; justify-content:center; gap:13px; flex-wrap:wrap;}
   .gaf-qtylabel{font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep);}
@@ -888,6 +890,7 @@
         '<h3 class="gaf-rectitle">'+headTitle+'</h3>'
         +'<p class="gaf-famsub">For your measurements of <span class="gaf-height-em">'+trim(heightVal)+'" height</span> and <span class="gaf-width-em">'+trim(widthVal)+'" width</span>, here\u2019s what we recommend <strong>per window</strong> mounted in the orientation shown in the <span style="text-transform:uppercase; color:var(--teal);"><b>Live preview</b></span>:</p>'
         +'<div class="gaf-cards">'+cards+'</div>'
+        +'<p class="gaf-cardsnote"><a href="'+SHOP+'/pages/contact" target="_blank" rel="noopener">Contact us</a> for other colors and materials.</p>'
         +'<div class="gaf-msg info gaf-qtymsg" id="gaf-qtymsg"><strong>Have more windows with the same measurements?</strong> Adjust the quantity below to calculate the total number of guards needed.</div>'
         +'<div class="gaf-qtyrow"><span class="gaf-qtylabel">Windows this size</span>'
           +'<div class="gaf-stepper">'
