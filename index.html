@@ -241,7 +241,8 @@
   .gaf-card-link::after{content:"\2192"; transition:transform .15s ease;}
   .gaf-card-link:hover::after{transform:translateX(3px);}
 
-  .gaf-qtyrow{margin-top:20px; display:flex; align-items:center; justify-content:center; gap:13px; flex-wrap:wrap;}
+  .gaf-qtymsg{margin-top:24px;}
+  .gaf-qtyrow{margin-top:16px; display:flex; align-items:center; justify-content:center; gap:13px; flex-wrap:wrap;}
   .gaf-qtylabel{font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--deep);}
   .gaf-stepper{display:inline-flex; align-items:center; border:1.5px solid var(--line); border-radius:12px; overflow:hidden; background:var(--white);}
   .gaf-stepbtn{font-family:inherit; width:44px; height:44px; font-size:23px; font-weight:700; color:var(--deep);
@@ -881,6 +882,7 @@
         '<h3 class="gaf-rectitle">'+headTitle+'</h3>'
         +'<p class="gaf-famsub">For your measurements of <span class="gaf-height-em">'+trim(heightVal)+'" height</span> and <span class="gaf-width-em">'+trim(widthVal)+'" width</span>, here\u2019s what we recommend <strong>per window</strong> mounted in the orientation shown in the Live Preview:</p>'
         +'<div class="gaf-cards">'+cards+'</div>'
+        +'<div class="gaf-msg info gaf-qtymsg" id="gaf-qtymsg"><strong>Have more windows with the same measurements?</strong> Adjust the quantity below to calculate the total number of guards needed.</div>'
         +'<div class="gaf-qtyrow"><span class="gaf-qtylabel">Windows this size</span>'
           +'<div class="gaf-stepper">'
             +'<button type="button" class="gaf-stepbtn" id="gaf-winminus" aria-label="Fewer windows">\u2212</button>'
@@ -899,6 +901,7 @@
       cart.href=SHOP+"/cart/"+pr+"?storefront=true";
       cart.textContent = totalAll>1 ? ("Add all "+totalAll+" to cart") : "Add to cart";
       $("gaf-winminus").disabled=(n<=1);
+      $("gaf-qtymsg").hidden=(n>1);
       var note=$("gaf-qtynote");
       if(n>1){ note.innerHTML="<strong>"+n+"</strong> windows \u00d7 <strong>"+total+"</strong> guard"+(total>1?"s":"")+" each = <strong>"+totalAll+"</strong> guards total"; }
       else { note.textContent=""; }
