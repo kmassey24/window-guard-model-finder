@@ -51,7 +51,7 @@
         <p class="gaf-stephint">Guards mount either way. Pick a direction and the preview on the right will update.</p>
         <div class="gaf-installs" id="gaf-installs" role="radiogroup" aria-label="Install direction">
           <button class="gaf-install" data-install="horizontal" role="radio" aria-checked="false">
-            <span class="gaf-rec-badge" aria-hidden="true">✦ Most Popular</span>
+            <span class="gaf-rec-badge" tabindex="0" role="button" aria-label="Why is this most popular?">✦ Most Popular<span class="gaf-rec-tip" role="tooltip">Guardian Angel Window Guards can be installed horizontally or vertically. Choose the direction that works best for your window, as long as all opening size and egress requirements are met.</span></span>
             <span class="gaf-install-icon" id="icon-horiz"></span>
             <span class="gaf-install-copy">
               <span class="gaf-install-t">Horizontal</span>
@@ -59,7 +59,7 @@
             </span>
           </button>
           <button class="gaf-install" data-install="vertical" role="radio" aria-checked="false">
-            <span class="gaf-rec-badge" aria-hidden="true">✦ Most Popular</span>
+            <span class="gaf-rec-badge" tabindex="0" role="button" aria-label="Why is this most popular?">✦ Most Popular<span class="gaf-rec-tip" role="tooltip">Guardian Angel Window Guards can be installed horizontally or vertically. Choose the direction that works best for your window, as long as all opening size and egress requirements are met.</span></span>
             <span class="gaf-install-icon" id="icon-vert"></span>
             <span class="gaf-install-copy">
               <span class="gaf-install-t">Vertical</span>
@@ -166,6 +166,12 @@
     border-radius:999px; background:#eefbfc; border:1px solid rgba(0,156,166,.35); color:var(--teal); font-size:9px;
     font-weight:800; text-transform:uppercase; letter-spacing:.045em; line-height:1.15; box-shadow:0 2px 8px rgba(0,61,76,.07);}
   .gaf-install.is-recommended .gaf-rec-badge{display:inline-flex;}
+  .gaf-rec-badge{cursor:help;}
+  .gaf-rec-tip{display:none; position:absolute; top:calc(100% + 8px); right:0; width:260px; z-index:20;
+    padding:11px 13px; border-radius:10px; background:#fff; border:1px solid var(--line); color:var(--ink); font-size:12px; font-weight:500;
+    text-transform:none; letter-spacing:0; line-height:1.5; text-align:left; box-shadow:0 10px 26px rgba(0,61,76,.14);}
+  .gaf-rec-tip::after{content:""; position:absolute; bottom:100%; right:14px; border:7px solid transparent; border-bottom-color:#fff;}
+  .gaf-rec-badge:hover .gaf-rec-tip, .gaf-rec-badge:focus .gaf-rec-tip{display:block;}
   .gaf-install.is-recommended .gaf-install-t{padding-right:80px;}
   .gaf-install[aria-checked="true"]{border-color:var(--deep); background:var(--soft); box-shadow:inset 0 0 0 1px var(--deep);}
   .gaf-install:focus-visible{outline:3px solid var(--teal); outline-offset:2px;}
