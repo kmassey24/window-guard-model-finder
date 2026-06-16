@@ -557,10 +557,12 @@
     var showArrows = hasInstall;
     var showTag    = realGuards;
 
-    var mL=56, mR=22, mT=22, mB = showTag?78 : (showArrows?42:24);
-    var CW=Math.max(W+mL+mR, 280);
+    /* symmetric side margins keep the WINDOW itself centered in the box;
+       left side still needs room for the height arrow + label */
+    var mSide=48, mT=22, mB = showTag?96 : (showArrows?42:24);
+    var CW=Math.max(W+mSide*2, 280);
     var CH=H+mT+mB;
-    var wx=mL+(CW-mL-mR-W)/2, wy=mT;
+    var wx=(CW-W)/2, wy=mT;
     var cx=wx+W/2, cy=wy+H/2;
 
     /* operable rect (where guards live) */
@@ -655,12 +657,23 @@
       var secs2=(tier2&&tier2[2])?tier2[2]:["3"];
       var counts={}; secs2.forEach(function(sz){ counts[sz]=(counts[sz]||0)+1; });
       var sizes=Object.keys(counts).sort(), total=secs2.length;
-      var items=sizes.map(function(sz){ return fam.m+"-"+sz+" \u00d7"+counts[sz]; });
-      var tagText="Model "+items.join("  +  ")+(total>1?"  (stacked)":"");
-      var pillW=Math.min(CW-16, tagText.length*6.6+30);
-      var pillX=(CW-pillW)/2, tagY=wy+H+44;
-      svg+='<rect x="'+pillX+'" y="'+tagY+'" width="'+pillW+'" height="24" rx="12" fill="'+D+'"/>'
-          +'<text x="'+(CW/2)+'" y="'+(tagY+16)+'" fill="#ffffff" font-family="Rajdhani,sans-serif" font-size="12.5" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tagText+'</text>';
+      var items=sizes.map(function(sz){ return counts[sz]+" Qty Model "+fam.m+"-"+sz; });
+      var tagText=items.join("  +  ")+(total>1?"  (stacked)":"");
+      var fs=14, maxW=CW-12, estW=function(s){ return s.length*(fs*0.55+0.4); };
+      var lines;
+      if(estW(tagText)<=maxW){ lines=[tagText]; }
+      else {
+        var words=tagText.split(/\s+/), l1="", l2="";
+        for(var wi=0; wi<words.length; wi++){
+          var test=l1?l1+" "+words[wi]:words[wi];
+          if(!l1 || (estW(test)<=maxW && !l2)){ l1=test; }
+          else { l2=l2?l2+" "+words[wi]:words[wi]; }
+        }
+        lines=l2?[l1,l2]:[l1];
+      }
+      var tagY=wy+H+64, lh=18;
+      var tspans=lines.map(function(ln,i){ return '<tspan x="'+(CW/2)+'" dy="'+(i===0?0:lh)+'">'+ln+'</tspan>'; }).join("");
+      svg+='<text x="'+(CW/2)+'" y="'+tagY+'" fill="'+D+'" font-family="Rajdhani,sans-serif" font-size="'+fs+'" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tspans+'</text>';
     }
 
     var defs='<defs><filter id="gaf-guard-glow" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#ffffff" flood-opacity="0.92"/><feDropShadow dx="0" dy="1" stdDeviation="1.4" flood-color="#003D4C" flood-opacity="0.22"/></filter></defs>';
