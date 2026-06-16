@@ -659,7 +659,9 @@
       var sizes=Object.keys(counts).sort(), total=secs2.length;
       var items=sizes.map(function(sz){ return counts[sz]+" Qty Model "+fam.m+"-"+sz; });
       var tagText=items.join("  +  ")+(total>1?"  (stacked)":"");
-      var fs=14, maxW=CW-12, estW=function(s){ return s.length*(fs*0.55+0.4); };
+      /* the SVG renders at ~380px wide, so scale the font by CW/380 to keep
+         it a constant ~18px on screen regardless of window size */
+      var fs=18*CW/380, maxW=CW-12, estW=function(s){ return s.length*(fs*0.55+0.4); };
       var lines;
       if(estW(tagText)<=maxW){ lines=[tagText]; }
       else {
@@ -671,7 +673,7 @@
         }
         lines=l2?[l1,l2]:[l1];
       }
-      var tagY=wy+H+64, lh=18;
+      var tagY=wy+H+64, lh=fs*1.3;
       var tspans=lines.map(function(ln,i){ return '<tspan x="'+(CW/2)+'" dy="'+(i===0?0:lh)+'">'+ln+'</tspan>'; }).join("");
       svg+='<text x="'+(CW/2)+'" y="'+tagY+'" fill="'+D+'" font-family="Rajdhani,sans-serif" font-size="'+fs+'" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tspans+'</text>';
     }
