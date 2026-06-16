@@ -457,7 +457,8 @@
       inner += '<path d="M26 8 L12 26 L26 44" fill="none" stroke="#009CA6" stroke-width="1.2" stroke-dasharray="2 1"/>';
       inner += '<path d="M26 8 L40 26 L26 44" fill="none" stroke="#009CA6" stroke-width="1.2" stroke-dasharray="2 1"/>';
     }
-    return '<svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+base+inner+'</svg>';
+    var typeLabel=t.replace(/-/g," ")+" window illustration";
+    return '<svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+typeLabel+'">'+base+inner+'</svg>';
   }
 
   /* ---- INSTALL DIRECTION ICON ---- */
@@ -467,7 +468,8 @@
     var bars = install==="horizontal"
       ? [22,32,42].map(function(y){ return '<line x1="16" y1="'+y+'" x2="48" y2="'+y+'" stroke="'+T+'" stroke-width="2.5"/>'; }).join("")
       : [22,32,42].map(function(x){ return '<line x1="'+x+'" y1="16" x2="'+x+'" y2="48" stroke="'+T+'" stroke-width="2.5"/>'; }).join("");
-    return '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+frame+bars+'</svg>';
+    var orientLabel=(install==="horizontal"?"Horizontal":"Vertical")+" guard orientation illustration, bars run "+(install==="horizontal"?"left to right":"top to bottom");
+    return '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+orientLabel+'">'+frame+bars+'</svg>';
   }
 
   /* ================================================================
@@ -510,7 +512,7 @@
        stage 4 (both valid): real stacked guards + model tag
   ================================================================ */
   function placeholderSVG(){
-    return '<svg viewBox="0 0 300 235" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'
+    return '<svg viewBox="0 0 300 235" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Live preview placeholder — your window will be illustrated here as you make selections">'
       +'<rect x="78" y="28" width="144" height="150" rx="8" fill="#f3f8f8" stroke="#cbdadc" stroke-width="2" stroke-dasharray="7 7"/>'
       +'<line x1="150" y1="28" x2="150" y2="178" stroke="#cbdadc" stroke-width="1.5" stroke-dasharray="5 5"/>'
       +'<line x1="78" y1="103" x2="222" y2="103" stroke="#cbdadc" stroke-width="1.5" stroke-dasharray="5 5"/>'
@@ -678,8 +680,11 @@
       svg+='<text x="'+(CW/2)+'" y="'+tagY+'" fill="'+D+'" font-family="Rajdhani,sans-serif" font-size="'+fs+'" font-weight="700" letter-spacing="0.4" text-anchor="middle">'+tspans+'</text>';
     }
 
+    var previewLabel="Live preview of a "+(winType?winType.replace(/-/g," ")+" ":"")+"window"
+      +((hasW&&hasH)?" measuring "+trim(widthIn)+" inches wide by "+trim(heightIn)+" inches high":"")
+      +(hasInstall?" with "+install+" window guards shown":"");
     var defs='<defs><filter id="gaf-guard-glow" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#ffffff" flood-opacity="0.92"/><feDropShadow dx="0" dy="1" stdDeviation="1.4" flood-color="#003D4C" flood-opacity="0.22"/></filter></defs>';
-    return '<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Window guard preview">'+defs+svg+'</svg>';
+    return '<svg viewBox="0 0 '+CW+' '+CH+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+previewLabel+'">'+defs+svg+'</svg>';
   }
 
   /* ================================================================
