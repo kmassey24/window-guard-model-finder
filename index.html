@@ -19,7 +19,7 @@
 
       <!-- STEP 1 — WINDOW TYPE -->
       <section class="gaf-step">
-        <p class="gaf-steplabel"><span class="gaf-num">1</span> What type of window do you have?</p>
+        <p class="gaf-steplabel"><span class="gaf-num">1</span> Window Type</p>
         <p class="gaf-stephint">Select your window type so we can show the correct measuring guide.</p>
         <div class="gaf-types" id="gaf-types" role="radiogroup" aria-label="Window type">
           <button class="gaf-type" data-type="single-hung" role="radio" aria-checked="false">
@@ -47,7 +47,7 @@
 
       <!-- STEP 2 — INSTALL DIRECTION -->
       <section class="gaf-step" id="gaf-step2" hidden>
-        <p class="gaf-steplabel"><span class="gaf-num">2</span> How will the guard be installed?</p>
+        <p class="gaf-steplabel"><span class="gaf-num">2</span> Guard Orientation</p>
         <p class="gaf-stephint">Guards mount either way. Pick a direction and the preview on the right will update.</p>
         <div class="gaf-installs" id="gaf-installs" role="radiogroup" aria-label="Install direction">
           <button class="gaf-install" data-install="horizontal" role="radio" aria-checked="false">
@@ -74,7 +74,7 @@
 
       <!-- STEP 3 — MEASUREMENTS -->
       <section class="gaf-step" id="gaf-step3" hidden>
-        <p class="gaf-steplabel"><span class="gaf-num">3</span> Enter your measurements</p>
+        <p class="gaf-steplabel"><span class="gaf-num">3</span> Window Measurements</p>
         <div class="gaf-inputs">
           <label class="gaf-field">
             <span class="gaf-flabel gaf-height-label">Height <em id="gaf-openhint">(top to bottom, in inches)</em></span>
@@ -223,9 +223,7 @@
   .gaf-msg.info{background:var(--light); border:1px solid var(--teal); color:var(--deep);}
   .gaf-msg a{color:inherit; font-weight:700;}
 
-  .gaf-summary{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:6px;}
-  .gaf-count{font-size:30px; font-weight:700; color:var(--deep); line-height:1;}
-  .gaf-fam{font-size:17px; font-weight:600; color:var(--teal); text-transform:uppercase; letter-spacing:.05em;}
+  .gaf-rectitle{font-size:30px; font-weight:700; color:var(--deep); line-height:1.1; margin:0 0 6px;}
   .gaf-famsub{font-size:15px; color:var(--ink); opacity:.8; padding-bottom:16px; line-height:1.5;}
 
   .gaf-cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,230px)); gap:16px; justify-content:center;}
@@ -876,12 +874,11 @@
         +'</div></div>';
     }).join("");
 
-    var plural = total===1 ? "GUARD" : "GUARDS";
+    var headTitle = total===1 ? "Recommended Guard" : "Recommended Guards";
 
     $("gaf-results").hidden=false;
     $("gaf-results").innerHTML =
-        '<div class="gaf-summary"><span class="gaf-count">'+total+' '+plural+'</span>'
-        +'<span class="gaf-fam">Model '+fam.m+' \u2022 '+fam.min+'&quot;\u2013'+fam.max+'&quot;</span></div>'
+        '<h3 class="gaf-rectitle">'+headTitle+'</h3>'
         +'<p class="gaf-famsub">For your measurements of <span class="gaf-height-em">'+trim(heightVal)+'" height</span> and <span class="gaf-width-em">'+trim(widthVal)+'" width</span>, here\u2019s what we recommend <strong>per window</strong> mounted in the orientation shown in the Live Preview:</p>'
         +'<div class="gaf-cards">'+cards+'</div>'
         +'<div class="gaf-qtyrow"><span class="gaf-qtylabel">Windows this size</span>'
